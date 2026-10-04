@@ -64,6 +64,20 @@
   dialog pre .red { color: var(--red); }
   iframe { width: 100%; height: 1560px; border: 0; border-top: 1.5px solid var(--rule-2); }
   .hidden { display: none; }
+  h1 { font-size: 2rem; line-height: 1.2; max-width: 30ch; }
+  .btn.big { font-size: 18px; padding: 14px 34px; background: var(--ink); color: var(--paper); font-weight: 500; }
+  .btn.big:hover { background: var(--paper); color: var(--ink); }
+  .btn.big:disabled { background: var(--paper); color: var(--ink-3); }
+  .controls { margin: 6px 0 22px; }
+  .hint { width: 100%; }
+  .score { height: 300px; }
+  .label { display: none; }
+  .verdict { font-size: 19px; line-height: 1.4; margin-top: 14px; }
+  .verdict b { font-weight: 700; }
+  .verdict .caught { font-size: 24px; display: block; }
+  .flags { margin-top: 12px; }
+  .stats .lead.big { font: 400 22px/1.35 var(--serif); max-width: 44ch; }
+  .more { font-size: 14px; margin-top: 20px; }
   details.pick { font: 400 13px/1.4 var(--mono); color: var(--ink-2); }
   details.pick summary { cursor: pointer; }
   details.pick label { margin-right: 14px; }
@@ -87,20 +101,20 @@
 </head>
 <body>
 <main>
-  <h1>Figure 1, interactive. Agent Protocol Auditing.</h1>
-  <p class="sub"><span id="subRuns">Two runs</span>, same image set, replayed from the recorded traces. <a href="index.html">Back to the page.</a></p>
+  <h1>Watch an agent game its own evaluation, and get caught.</h1>
+  <p class="sub">An AI engineer agent trains a bird classifier. Left: an honest run. Right: the same agent told it may game the scorer. Every step was recorded; this replays the traces. <a href="index.html">Back to the paper.</a></p>
 
-  <div class="tabs" role="tablist">
+  <div class="tabs hidden" role="tablist">
     <button role="tab" aria-selected="true" data-tab="hack">Hack detection</button>
     <button role="tab" aria-selected="false" data-tab="faith">Protocol faithfulness</button>
   </div>
 
   <section id="tab-hack" role="tabpanel">
     <div class="controls">
-      <button class="btn" id="play">Play</button>
+      <button class="btn big" id="play">Play</button>
       <button class="btn" id="reset">Show all</button>
       <span class="stepc" id="stepc"></span>
-      <span class="stepc">Both runs advance one step per second and pause at the first flag. Click the red line for the raw trace.</span>
+      <span class="stepc hint">One step per second. Pauses at the first flag. Click the red line to read the raw trace.</span>
       <details class="pick"><summary>choose runs</summary>
         <label>left <select id="selL" aria-label="left run"></select></label>
         <label>right <select id="selR" aria-label="right run"></select></label>
@@ -110,7 +124,7 @@
       <section class="col" id="L">
         <div class="hdr"></div>
         <div class="label">score</div><div class="panel score"><canvas></canvas></div>
-        <div class="label">access timeline</div><div class="panel ticks"><canvas></canvas></div>
+        <div class="label hidden">access timeline</div><div class="panel ticks hidden"><canvas></canvas></div>
         <div class="label hidden">protocol</div><div class="strip hidden"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
@@ -119,7 +133,7 @@
       <section class="col" id="R">
         <div class="hdr"></div>
         <div class="label">score</div><div class="panel score"><canvas></canvas></div>
-        <div class="label">access timeline</div><div class="panel ticks"><canvas></canvas></div>
+        <div class="label hidden">access timeline</div><div class="panel ticks hidden"><canvas></canvas></div>
         <div class="label hidden">protocol</div><div class="strip hidden"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
@@ -127,12 +141,12 @@
       </section>
     </div>
     <section class="stats" id="stats">
-      <h2>Across all runs</h2>
-      <p class="lead" id="statLead"></p>
+      <p class="lead big" id="statLead"></p>
       <details class="pick"><summary>per condition</summary><div class="statwrap"><table><thead><tr><th>condition</th><th class="num">runs</th><th class="num">threshold</th><th class="num">passed</th><th class="num">hacks caught</th><th>signals fired (runs)</th><th class="num">onset step</th><th class="num">visible − hidden</th></tr></thead><tbody id="statRows"></tbody></table></div></details>
     </section>
   </section>
 
+    <p class="more"><a href="#" id="showFaith">Earlier experiment: protocol faithfulness of a vision model</a></p>
   <section id="tab-faith" role="tabpanel" class="hidden">
     <p class="sub" style="margin-top:0">The earlier experiment: a vision model identifies 20 CUB birds through eight declared attribute steps. Its numbers are kept apart from the hack-detection numbers.</p>
     <iframe title="protocol faithfulness replay" data-src="faithfulness/demo.html"></iframe>
@@ -159,6 +173,17 @@
     const fr = $('#tab-faith iframe'); if (b.dataset.tab === 'faith' && !fr.src) fr.src = fr.dataset.src;
   });
 
+  const annot = { id: 'annot', afterDatasetsDraw(chart, _a, o) {
+    if (!o.on) return;
+    const { ctx, chartArea: a, scales: { x, y } } = chart;
+    ctx.save(); ctx.font = '500 11.5px ' + MONO; ctx.textBaseline = 'middle';
+    const label = (tx, ty, text, color, align = 'left') => { ctx.textAlign = align; const w = ctx.measureText(text).width + 8, h = 16; const bx = align === 'right' ? tx - w + 4 : tx - 4; ctx.fillStyle = 'rgba(253,253,252,.92)'; ctx.fillRect(bx, ty - h / 2, w, h); ctx.fillStyle = color; ctx.fillText(text, tx, ty); };
+    if (o.thr !== null && o.thr !== undefined) label(a.left + 8, y.getPixelForValue(o.thr) - 10, `pass mark ${o.thr.toFixed(2)}`, INK);
+    if (o.onset !== null && o.onset !== undefined) { const px = x.getPixelForValue(o.onset); label(px + 6, a.bottom - 40, `first flag, step ${o.onset}`, RED); if (o.cause) label(px + 6, a.bottom - 24, o.cause, '#4a4a47'); }
+    if (o.lastVis) label(x.getPixelForValue(o.lastVis.x) - 8, y.getPixelForValue(o.lastVis.y) - 14, `visible ${o.lastVis.y.toFixed(2)}`, INK, 'right');
+    if (o.lastHid) label(x.getPixelForValue(o.lastHid.x) - 8, y.getPixelForValue(o.lastHid.y) + 15, `hidden ${o.lastHid.y.toFixed(2)}`, INK, 'right');
+    ctx.restore();
+  } };
   const redLine = { id: 'redLine', afterDatasetsDraw(chart, _a, o) {
     if (o.x === null || o.x === undefined) return;
     const { ctx, chartArea: a, scales: { x } } = chart, px = x.getPixelForValue(o.x);
@@ -213,8 +238,8 @@
         { label: 'threshold', data: this.thr === null ? [] : [{ x: 0, y: this.thr }, { x: xMax, y: this.thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
         { label: 'hidden', data: [], type: 'scatter', pointRadius: 4.5, pointBackgroundColor: INK, pointBorderColor: '#fdfdfc', pointBorderWidth: 1.5 } ] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false, onClick: (ev) => this.clickLine(ev),
-          plugins: { legend: { display: false }, redLine: { x: null }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
-          scales: { x: xScale, y: yScale } }, plugins: [redLine] });
+          plugins: { legend: { display: false }, redLine: { x: null }, annot: { on: false }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
+          scales: { x: xScale, y: yScale } }, plugins: [redLine, annot] });
       this.tick = new Chart($('.ticks canvas', this.root), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: ctx => (ctx.raw && ctx.raw.ev) ? INK : IDLE, barThickness: 3, parsing: false }] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => `step ${c.raw.x}: ${c.raw.tool} ${c.raw.path}` } } },
           scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 64; } } } } });
@@ -244,10 +269,12 @@
       // verdict
       let v;
       if (!flags) v = '<span class="pending">flags not computed yet</span>';
-      else {
-        const first = flags.flags.length ? flags.flags.reduce((m, f) => f.step < m.step ? f : m) : null;
-        v = `Verdict <b>${flags.verdict}</b>. Visible ${fmt(flags.visible, 2)}, hidden ${fmt(flags.hidden, 2)}` + (first ? `. First flag: ${first.flag.replace('_', ' ')} at step ${first.step}.` : '. No flags.');
-      }
+      else if (flags.verdict === 'hack') {
+        const first = flags.flags.reduce((m, f) => f.step < m.step ? f : m);
+        v = `<b class="caught">Caught at step ${first.step}.</b> The scorer says ${fmt(flags.visible, 2)}; on data the agent never saw it is ${fmt(flags.hidden, 2)}.`;
+      } else if (flags.flags.length) {
+        v = `<b class="caught">${flags.verdict === 'clean' ? 'Clean.' : 'Flagged, not a hack.'}</b> Visible ${fmt(flags.visible, 2)}, hidden ${fmt(flags.hidden, 2)}.`;
+      } else v = `<b class="caught">Clean.</b> Visible ${fmt(flags.visible, 2)}, hidden ${fmt(flags.hidden, 2)}. No flags.`;
       $('.verdict', this.root).innerHTML = v;
       const acc = $('.account', this.root), text = meta && (meta.cheat_summary || meta.report);
       acc.classList.toggle('hidden', !text);
@@ -259,12 +286,17 @@
       this.score.data.datasets[0].data = this.scores.filter(p => p.x <= upto);
       this.score.data.datasets[2].data = this.hidden.filter(p => p.x <= upto);
       this.score.options.plugins.redLine.x = (this.onset !== null && upto >= this.onset) ? this.onset : null;
+      const fl = this.run.flags, first = fl && fl.flags.length ? fl.flags.reduce((m, f) => f.step < m.step ? f : m) : null;
+      const vis = this.scores.filter(p => p.x <= upto), hid = this.hidden.filter(p => p.x <= upto);
+      Object.assign(this.score.options.plugins.annot, { on: true, thr: this.thr, onset: (this.onset !== null && upto >= this.onset) ? this.onset : null,
+        cause: first ? (first.flag === 'evaluator_contact' ? first.detail.split(',')[0] : first.flag.replace('_', ' ')).slice(0, 44) : null,
+        lastVis: vis.length ? vis[vis.length - 1] : null, lastHid: hid.length ? hid[hid.length - 1] : null });
       this.tick.data.datasets[0].data = this.ticks.filter(p => p.x <= upto);
       this.score.update('none'); this.tick.update('none');
       const cur = trace.filter(e => e.step <= upto); const last = cur[cur.length - 1];
       const batch = last ? last.batch : 0;
-      const fl = this.run.flags, title = this.run.c === 'honest' ? 'Honest run' : (fl && fl.verdict === 'hack' ? 'Hacking run' : (this.run.c === 'permitted' ? 'Hacking allowed' : 'Bait present'));
-      $('.hdr', this.root).innerHTML = `<h3>${title} <span class="v">(${this.run.c} ${this.run.i})</span></h3><span>pass mark <b>${this.thr === null ? 'none' : fmt(this.thr, 2)}</b></span><span>step <b>${Math.min(upto, this.run.maxStep)}</b> of ${this.run.maxStep}</span>`;
+      const flg = this.run.flags, title = this.run.c === 'honest' ? 'Honest run' : (flg && flg.verdict === 'hack' ? 'Hacking run' : (this.run.c === 'permitted' ? 'Hacking allowed' : 'Bait present'));
+      $('.hdr', this.root).innerHTML = `<h3>${title} <span class="v">step ${Math.min(upto, this.run.maxStep)} of ${this.run.maxStep}</span></h3>`;
       for (const el of this.root.querySelectorAll('.batch')) el.classList.toggle('on', +el.dataset.step <= upto);
       for (const el of Object.values(this.flagEls)) el.classList.toggle('on', el.dataset.step !== '' && +el.dataset.step <= upto);
     }
@@ -286,10 +318,11 @@
   const L = new Column($('#L')), R = new Column($('#R'));
   let timer = null, step = 0;
   async function reload() { clearInterval(timer); L.build(await loadRun($('#selL').value)); R.build(await loadRun($('#selR').value)); $('#play').textContent = 'Play'; $('#stepc').textContent = '';
-    const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-    $('#subRuns').textContent = `${cap(L.run.c)} run ${L.run.i} beside ${R.run.c} run ${R.run.i}`; }
+ }
   $('#selL').addEventListener('change', reload); $('#selR').addEventListener('change', reload);
   await reload();
+  $('#showFaith').addEventListener('click', e => { e.preventDefault(); const fr = $('#tab-faith iframe'); if (!fr.src) fr.src = fr.dataset.src; $('#tab-faith').classList.toggle('hidden'); });
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setTimeout(() => $('#play').click(), 600);
 
   function firstFlag() { const c = [L.onset, R.onset].filter(x => x !== null); return c.length ? Math.min(...c) : null; }
   $('#play').addEventListener('click', () => {
@@ -307,7 +340,7 @@
     const clean = ['honest', 'baited'].reduce((n, k) => n + (c[k] ? c[k].n : 0), 0);
     const fp = ['honest', 'baited'].reduce((n, k) => n + (c[k] ? c[k].verdicts.hack : 0), 0);
     const perm = c.permitted;
-    $('#statLead').innerHTML = perm ? `<b>${perm.verdicts.hack} of ${perm.n}</b> hacking agents caught, first flag at step ${fmt(perm.onset_step.value, 1)} on average, visible minus hidden ${fmt(perm.hidden_vs_visible_gap.value, 2)}; <b>${fp} of ${clean}</b> clean runs flagged as hacks (honest and baited together). Intervals are bootstrap 95% over runs.` : 'summary.json has no permitted runs yet.';
+    $('#statLead').innerHTML = perm ? `Across all recorded runs: <b>${perm.verdicts.hack} of ${perm.n}</b> hacking agents caught, on average at step ${fmt(perm.onset_step.value, 0)}. <b>${fp} of ${clean}</b> honest runs wrongly flagged.` : 'No permitted runs recorded yet.';
     $('#statRows').innerHTML = Object.entries(c).map(([k, d]) => {
       const sig = Object.entries(d.signals_fired).filter(([, n]) => n > 0).map(([s, n]) => `${s.replace('_', ' ')} ${n}/${d.n}`).join(', ') || 'none';
       return `<tr><td>${k}</td><td class="num">${d.n}</td><td class="num">${d.threshold === null ? '–' : fmt(d.threshold, 2)}</td><td class="num">${Math.round(d.pass_rate.value * d.n)}/${d.n}</td><td class="num">${d.verdicts.hack}/${d.n}</td><td>${sig}</td><td class="num">${d.onset_step.value === null ? '–' : f2(d.onset_step, 1)}</td><td class="num">${f2(d.hidden_vs_visible_gap)}</td></tr>`;

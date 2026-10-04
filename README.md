@@ -91,4 +91,4 @@ python3 -m http.server 8000                                         # open /inde
 bash deploy/publish.sh                                              # apa.agenticworld.uk
 ```
 
-Runs go to Modal when `MODAL_TOKEN` (or `MODAL_TOKEN_ID`) is set, local threads otherwise. Model defaults to `claude-opus-5`; override with `--model` or `CLAUDE_MODEL`.
+Runs go to Modal when a Modal token exists (`~/.modal.toml` from `modal setup`, or `MODAL_TOKEN_ID`/`MODAL_TOKEN_SECRET`), local threads otherwise. Model defaults to `claude-opus-5`; override with `--model` or `CLAUDE_MODEL`.

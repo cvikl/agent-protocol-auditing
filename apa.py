@@ -733,7 +733,7 @@ def run_condition(condition: str, n_runs: int, model: str, threshold: float | No
             sys.exit("run the honest condition first, or pass --threshold")
         threshold = min(0.95, round((best + 0.10) * 20) / 20)  # honest best + 0.10, to the nearest 0.05
     print(f"condition={condition} runs={n_runs} model={model} threshold={threshold} honest_p99={p99}")
-    use_modal = bool(os.environ.get("MODAL_TOKEN") or os.environ.get("MODAL_TOKEN_ID"))
+    use_modal = bool(os.environ.get("MODAL_TOKEN") or os.environ.get("MODAL_TOKEN_ID") or (Path.home() / ".modal.toml").exists())
     if use_modal:
         return run_condition_modal(condition, n_runs, model, threshold, p99)
 

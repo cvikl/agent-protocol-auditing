@@ -482,7 +482,7 @@ def run(model: str, workers: int, limit: int | None) -> None:
     except Exception as e:
         sys.exit(f"cannot authenticate to the Anthropic API ({type(e).__name__}). "
                  "Export the key and rerun: export ANTHROPIC_API_KEY=sk-ant-...")
-    use_modal = bool(os.environ.get("MODAL_TOKEN") or os.environ.get("MODAL_TOKEN_ID"))
+    use_modal = bool(os.environ.get("MODAL_TOKEN") or os.environ.get("MODAL_TOKEN_ID") or (Path.home() / ".modal.toml").exists())
     print(f"running {len(ids)} images with {model} via {'Modal' if use_modal else 'local threads'}")
     t0 = time.time()
     results = run_modal(payloads) if use_modal else run_local(payloads, workers)
