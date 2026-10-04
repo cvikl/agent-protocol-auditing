@@ -40,7 +40,7 @@
   .hdr b { color: var(--ink); font-weight: 500; }
   .panel { position: relative; }
   .label { font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 4px; }
-  .score { height: 220px; }
+  .score { height: 240px; }
   .ticks { height: 30px; }
   .ticks canvas { cursor: default; }
   .strip { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -69,7 +69,7 @@
 <body>
 <main>
   <h1>Figure 1, interactive. Agent Protocol Auditing.</h1>
-  <p class="sub">Honest run beside baited run, same image set, replayed from the recorded traces. <a href="index.html">Back to the page.</a></p>
+  <p class="sub"><span id="subRuns">Two runs</span>, same image set, replayed from the recorded traces. <a href="index.html">Back to the page.</a></p>
 
   <div class="tabs" role="tablist">
     <button role="tab" aria-selected="true" data-tab="hack">Hack detection</button>
@@ -167,7 +167,10 @@
     build(run) {
       this.run = run;
       const { c, i, trace, flags, meta } = run;
-      const xScale = { type: 'linear', min: 0, max: run.maxStep + 1, grid: { color: GRID }, ticks: { stepSize: 5 } };
+      const xMax = Math.ceil((run.maxStep + 1) / 5) * 5;
+      const spine = { display: true, color: INK, width: 1 };
+      const xScale = { type: 'linear', min: 0, max: xMax, border: spine, grid: { drawOnChartArea: false, drawTicks: true, tickLength: 5, tickColor: INK }, ticks: { stepSize: 5, padding: 4 }, title: { display: true, text: 'step', font: { size: 11 } } };
+      const yScale = { min: 0, max: 1, border: spine, grid: { color: GRID, drawTicks: true, tickLength: 5, tickColor: INK }, ticks: { stepSize: 0.2, padding: 4, callback: v => v.toFixed(1) }, title: { display: true, text: 'macro accuracy', font: { size: 11 } }, afterFit: s => { s.width = 64; } };
       this.scores = []; this.hidden = []; this.ticks = [];
       for (const e of trace) {
         for (const s of (e.scores || [])) if (s.scope === 'full') this.scores.push({ x: e.step, y: s.macro_accuracy });
@@ -179,14 +182,14 @@
       if (this.score) { this.score.destroy(); this.tick.destroy(); }
       this.score = new Chart($('.score canvas', this.root), { type: 'line', data: { datasets: [
         { label: 'visible', data: [], borderColor: INK, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: INK, tension: 0 },
-        { label: 'threshold', data: this.thr === null ? [] : [{ x: 0, y: this.thr }, { x: run.maxStep + 1, y: this.thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
+        { label: 'threshold', data: this.thr === null ? [] : [{ x: 0, y: this.thr }, { x: xMax, y: this.thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
         { label: 'hidden', data: [], type: 'scatter', pointRadius: 4.5, pointBackgroundColor: INK, pointBorderColor: '#fdfdfc', pointBorderWidth: 1.5 } ] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false, onClick: (ev) => this.clickLine(ev),
           plugins: { legend: { display: false }, redLine: { x: null }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
-          scales: { x: xScale, y: { min: 0, max: 1, grid: { color: GRID }, ticks: { stepSize: 0.2, callback: v => v.toFixed(1) }, afterFit: s => { s.width = 46; } } } }, plugins: [redLine] });
+          scales: { x: xScale, y: yScale } }, plugins: [redLine] });
       this.tick = new Chart($('.ticks canvas', this.root), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: ctx => (ctx.raw && ctx.raw.ev) ? INK : IDLE, barThickness: 3, parsing: false }] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => `step ${c.raw.x}: ${c.raw.tool} ${c.raw.path}` } } },
-          scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 46; } } } } });
+          scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 64; } } } } });
       // protocol strip
       const strip = $('.strip', this.root); strip.innerHTML = '';
       const nEval = meta ? meta.n_eval : null;
@@ -250,7 +253,9 @@
 
   const L = new Column($('#L')), R = new Column($('#R'));
   let timer = null, step = 0;
-  async function reload() { clearInterval(timer); L.build(await loadRun($('#selL').value)); R.build(await loadRun($('#selR').value)); $('#play').textContent = 'Play'; $('#stepc').textContent = ''; }
+  async function reload() { clearInterval(timer); L.build(await loadRun($('#selL').value)); R.build(await loadRun($('#selR').value)); $('#play').textContent = 'Play'; $('#stepc').textContent = '';
+    const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+    $('#subRuns').textContent = `${cap(L.run.c)} run ${L.run.i} beside ${R.run.c} run ${R.run.i}`; }
   $('#selL').addEventListener('change', reload); $('#selR').addEventListener('change', reload);
   await reload();
 
