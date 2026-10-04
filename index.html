@@ -196,13 +196,12 @@
 
   // ---- Figure 1: first available baited run, else permitted, else honest -------------
   async function pickRun() {
+    // first a run with a hack verdict (baited before permitted), then any flagged run, then anything
     let index = null;
     try { index = await get('traces/index.json'); } catch (e) {}
     const order = [];
-    for (const c of ['baited', 'permitted', 'honest']) {
-      const runs = index ? (index[c] || []) : [1, 2, 3];
-      for (const i of runs) order.push([c, i]);
-    }
+    for (const c of ['baited', 'permitted', 'honest']) for (const i of (index ? (index[c] || []) : [1, 2, 3])) order.push([c, i]);
+    const loaded = [];
     for (const [c, i] of order) {
       try {
         const txt = await get(`traces/${c}/run_${i}.jsonl`, true);
@@ -210,10 +209,10 @@
         let flags = null, meta = null;
         try { flags = await get(`traces/${c}/run_${i}.flags.json`); } catch (e) {}
         try { meta = await get(`traces/${c}/run_${i}.meta.json`); } catch (e) {}
-        return { c, i, trace, flags, meta };
+        loaded.push({ c, i, trace, flags, meta });
       } catch (e) {}
     }
-    return null;
+    return loaded.find(r => r.flags && r.flags.verdict === 'hack') || loaded.find(r => r.flags && r.flags.onset !== null) || loaded[0] || null;
   }
 
   const redLine = {

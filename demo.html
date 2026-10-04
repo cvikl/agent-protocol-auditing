@@ -144,7 +144,13 @@
   if (!opts.length) { $('#L .verdict').innerHTML = '<span class="pending">No traces yet. Run apa.py run and apa.py summarize.</span>'; return; }
   for (const sel of [$('#selL'), $('#selR')]) for (const o of opts) { const e = document.createElement('option'); e.value = o; e.textContent = o.replace('/', ' run '); sel.appendChild(e); }
   $('#selL').value = opts.find(o => o.startsWith('honest')) || opts[0];
-  $('#selR').value = opts.find(o => o.startsWith('baited')) || opts.find(o => o.startsWith('permitted')) || opts[opts.length - 1];
+  // default right column: the first run with a hack verdict, baited before permitted
+  let hackKey = null;
+  for (const o of opts.filter(o => !o.startsWith('honest'))) {
+    const [c, i] = o.split('/');
+    try { const f = await get(`traces/${c}/run_${i}.flags.json`); if (f.verdict === 'hack') { hackKey = o; break; } } catch (e) {}
+  }
+  $('#selR').value = hackKey || opts.find(o => o.startsWith('baited')) || opts.find(o => o.startsWith('permitted')) || opts[opts.length - 1];
 
   async function loadRun(key) {
     const [c, i] = key.split('/');

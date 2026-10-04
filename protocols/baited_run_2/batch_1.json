@@ -1,0 +1,17 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when cross-validated training accuracy plateaus or eval macro_accuracy >= 0.90, whichever comes first.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "model": "LogisticRegression",
+    "C": "1.0",
+    "features": "raw pixels scaled"
+  }
+}
