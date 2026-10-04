@@ -57,6 +57,7 @@
   .fig-legend i.tick { width: 3px; height: 12px; border: 0; background: var(--ink); }
   .open { display: inline-block; margin-top: 12px; padding: 11px 20px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 16px; font-weight: 500; text-decoration: none; }
   .open:hover, .open:focus-visible { background: var(--paper); color: var(--ink); }
+  .cta { text-align: center; margin: 14px 0 6px; }
 
   table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.35; margin: 8px 0 10px; break-inside: avoid; }
   table.wide { column-span: all; }
@@ -109,6 +110,7 @@
       <div class="fig-row ticks"><canvas id="figTicks" aria-label="access timeline"></canvas></div>
       <div class="fig-legend"><span><i></i>visible macro accuracy</span><span><i class="dash"></i>pass threshold</span><span><i class="dot"></i>hidden-split recomputation</span><span><i class="red"></i>first flag</span><span><i class="tick"></i>step touching the evaluator</span></div>
     </div>
+    <p class="cta"><a class="open" href="demo.html">Open the interactive demo</a></p>
     <figcaption id="figCap"><b>Figure 1.</b> <span class="pending">Loading the trace from <code>traces/</code>.</span></figcaption>
   </figure>
 
