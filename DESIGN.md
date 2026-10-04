@@ -180,7 +180,7 @@ A monochrome palette of one paper, three inks and two rule greys, with a single 
 - **Ink 3** (`ink-3`): the margin stamp, the footer, inactive tabs, panel labels, inactive flag text, disabled control text and the italic "pending" state.
 - **Rule** (`rule`): the light hairline. Bottom rule of a figure frame, top and bottom of `pre` blocks, borders of inactive flag and protocol boxes, the tab row's bottom rule, the thin scrollbar thumb, and the disabled control border.
 - **Rule 2** (`rule-2`): the heavy rule, the same value as ink but a separate token so rule weight and text colour can diverge later. Top of a figure frame at 1.5px, table top and bottom at 1.5px, table header bottom at 1px, top of the references block, the tab row's top, each replay column's top, the iframe's top.
-- **Chart Grid** (`chart-grid`): Chart.js grid lines on both axes of the score chart.
+- **Chart Grid** (`chart-grid`): the y-axis hairlines of the score chart; the x axis draws no grid.
 - **Tick Idle** (`tick-idle`): access-timeline bars for steps that did not touch evaluation data; evaluator contact uses `ink`.
 
 ### Named Rules
@@ -208,7 +208,7 @@ A monochrome palette of one paper, three inks and two rule greys, with a single 
 - **Readout** (400, 12.5px, 1.4, mono): figure legends, column headers, protocol batches, code and pre blocks, the footer. Dialog trace lines drop to 11.5px.
 - **Control** (400, 13px, 1.2, mono): buttons, selects and control labels on the replay.
 - **Label** (500, 11px, 0.06em, uppercase, mono): panel labels above each replay panel ("score", "access timeline", "protocol", "flags") and the faithfulness column heads. These name data panels; they never sit above a serif heading.
-- **Stamp** (500, 11.5px, 0.04em, mono): the vertical margin stamp, rotated -90deg, fixed 14px from the left edge and 32px from the bottom, with the category in `ink` at 500.
+- **Stamp** (500, 11.5px, 0.04em, mono): the vertical margin stamp, page matter set vertical-rl and rotated 180deg so it reads upward from 56px below the top of the left margin (12px from the edge), with the category in `ink` at 500.
 
 ### Named Rules
 **The Serif Says, Mono Shows Rule.** Prose, headings and captions are serif. Anything read from a file, a chart, a control or a counter is mono. A number inside a serif sentence stays serif; a number inside a table cell, legend or readout is mono.
@@ -217,15 +217,15 @@ A monochrome palette of one paper, three inks and two rule greys, with a single 
 
 ## Layout
 
-The paper is a single centred column with a 1000px maximum, padded 72px top, 24px sides and 96px bottom. Within it the title block is centred in a 42rem block with 40px below; the abstract is centred in a 36.5rem measure with 36px below; the body runs as CSS columns (two columns, 2.4rem gap, no column rule). Figures, the wide results table and the references block span both columns. Figures carry 18px above and 26px below; the figure frame pads 14px above the chart and 10px below. Under 820px the body collapses to one column, the margin stamp is hidden, and page padding drops to 44px 16px 64px.
+The paper is a single centred column with a 1000px maximum, padded 48px top, 24px sides and 96px bottom. Within it the title block is centred in a 42rem block with 40px below; the abstract is centred in a 36.5rem measure with 36px below; the body runs as CSS columns (two columns, 2.4rem gap, no column rule). Figures, the wide results table and the references block span both columns. Figures carry 18px above and 26px below; the figure frame pads 14px above the chart and 10px below. Under 820px the body collapses to one column set left-aligned with manual hyphenation, the margin stamp is hidden, the results table scrolls sideways inside a wrapper with a right-edge fade and a mono cue and its cells stay on one line, and page padding drops to 44px 16px 64px.
 
-The replay widens to 1180px with 40px top padding. Beneath the title and tab row the two runs sit in a two-column grid with a 32px gap; under 860px the grid stacks and padding drops to 28px 16px 64px. Each column opens with a heavy rule, then stacks: header, score panel (220px), access timeline (30px), protocol strip, five-box flag row (five equal columns, 6px gap), verdict. Panel labels sit 10px above and 4px below each panel. The faithfulness replay lives in an iframe under the second tab, 1560px tall, with its own 760px breakpoint and a three-box flag row.
+The replay widens to 1180px with 40px top padding. Beneath the title and tab row the two runs sit in a two-column grid with a 32px gap; under 820px the grid stacks and padding drops to 28px 16px 64px. Each column opens with a heavy rule, then stacks: header, score panel (240px), access timeline (30px), protocol strip, five-box flag row (five equal columns, 6px gap), verdict. Panel labels sit 10px above and 4px below each panel. The faithfulness replay lives in an iframe under the second tab, 1560px tall, with the same 820px breakpoint and a three-box flag row.
 
 Spacing follows a small set of observed steps: 4, 8, 12, 18, 24, 32, 40px, with 72px and 96px only for page top and bottom.
 
 ## Elevation & Depth
 
-There are no shadows and no tonal surfaces. Every surface is `paper`. Depth is conveyed by rules alone: a heavy 1.5px line opens a frame, a light 1px line closes it. State is conveyed by inversion, not lift: an active flag box fills with `ink` and sets its text in `paper`; a hovered button or the "open" action box does the same. The dialog floats over a 35% `ink` backdrop (`rgba(20, 20, 20, .35)`) and is itself a 1px ink-bordered paper rectangle with no shadow. Inactive protocol batches fade to 35% opacity rather than changing colour.
+There are no shadows and no tonal surfaces. Every surface is `paper`. Depth is conveyed by rules alone: a heavy 1.5px line opens a frame, a light 1px line closes it. State is conveyed by inversion, not lift: an active flag box fills with `ink` and sets its text in `paper`; a hovered button inverts the same way, and the "open" action rests inverted and flips back on hover. The dialog floats over a 35% `ink` backdrop (`rgba(20, 20, 20, .35)`) and is itself a 1px ink-bordered paper rectangle with no shadow. Inactive protocol batches fade to 35% opacity rather than changing colour.
 
 ### Named Rules
 **The Flat Paper Rule.** No box-shadow anywhere. If something must read as "on top", give it a 1px `ink` border and a dim backdrop.
@@ -249,7 +249,7 @@ Utilitarian, monospaced, and ruled; they look like instrument controls on a pape
 - **Mono control:** `paper` fill, `ink` text, 13px Azeret Mono, 6px 10px padding (4px 10px on the faithfulness replay). Used for Play, Show all, Reset and Close.
 - **Hover:** inverts to `ink` fill and `paper` text.
 - **Disabled:** `ink-3` text, `rule` border, default cursor, no fill change.
-- **The "open" action box:** the primary action on the paper, a serif link at 15px inside a 1px `ink` border, 7px 12px padding, inline-block 12px below the figure caption. Hover inverts to ink.
+- **The "open" action:** the one primary action on the paper, a serif link at 16px 500 set `paper` on `ink` inside a 1px `ink` border, 11px 20px padding, inline-block 12px below the Figure 1 caption; hover and focus invert to paper. It appears once; no second call to action anywhere on the page.
 
 ### Inputs / Fields
 - **Select:** identical to the mono control: 13px Azeret Mono, `paper` fill, 1px `ink` border, 0 radius, 6px 10px padding. Labelled inline in `ink-2` mono ("left", "right").
@@ -263,13 +263,13 @@ Utilitarian, monospaced, and ruled; they look like instrument controls on a pape
 Centred heading in a 42rem block: display heading, then the italic `ink-2` byline with the date on its own non-italic line 4px beneath.
 
 ### Margin Stamp
-Fixed to the left margin and rotated -90deg from its bottom-left corner: 11.5px Azeret Mono 500, 0.04em tracking, `ink-3`, with the bracketed category in `ink`. Hidden under 820px. Aria-hidden; it is the paper's provenance mark, not navigation.
+Page matter in the left margin, absolutely positioned 56px from the top and 12px from the edge, vertical-rl writing mode rotated 180deg so it reads upward: 11.5px Azeret Mono 500, 0.04em tracking, `ink-3`, with the bracketed category in `ink`. Hidden under 820px. Aria-hidden; it is the paper's provenance mark, not navigation.
 
 ### Figures
 - **Frame:** 1.5px `rule-2` top, 1px `rule` bottom, 14px top and 10px bottom padding, no sides.
-- **Chart:** Chart.js 4.4.1 with all animation off. Axis font Azeret Mono 11px (10.5px on the replay) in `ink-2`; grid `chart-grid`; y axis fixed at 46px (40px on the replay). Visible score line in `ink` at 1.5px with 2.5px points; threshold dashed `ink` at 1.2px with dash [5, 4]; hidden-score scatter at 4.5px `ink` with a 1.5px `paper` stroke; the onset drawn by a plugin as a 1.5px `red` vertical line after the datasets.
+- **Chart:** Chart.js 4.4.1 drawn as a paper figure, identical on the page and the replay: 1px `ink` spines on x and y, outward 5px `ink` tick marks, no x grid, y hairlines in `chart-grid`, a y-axis title "macro accuracy" and an x title "step", x maximum rounded up to a multiple of 5 so no bound label leaks. Axis font Azeret Mono 11px in `ink-2`; y axis fixed at 64px. Chart.js animation is off; on the paper, Figure 1 reveals its steps once on load through an exponential ease-out over 2.4s driven by a timer, holds 450ms, then lands the red line as the last beat (reduced motion shows the final state at once). Visible score line in `ink` at 1.5px with 2.5px points; threshold dashed `ink` at 1.2px with dash [5, 4]; hidden-score scatter at 4.5px `ink` with a 1.5px `paper` stroke; the onset drawn by a plugin as a 1.5px `red` vertical line after the datasets.
 - **Access timeline:** a 3px-thick bar chart beneath the score chart, `ink` for steps that touched evaluation data, `tick-idle` otherwise, axes hidden, 34px tall on the paper and 30px on the replay.
-- **Legend:** 12.5px mono in `ink-2`, flex with 22px gaps, indented 46px to clear the y axis on the paper.
+- **Legend:** 12.5px mono in `ink-2`, flex with 22px gaps, indented 46px on the paper.
 - **Caption:** 15px serif beneath the frame, opening with bold "Figure 1."
 
 ### Tables
