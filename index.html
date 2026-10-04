@@ -85,6 +85,7 @@
   .refs p { margin: 0 0 6px; padding-left: 1.6em; text-indent: -1.6em; }
   footer { max-width: 1000px; margin: 0 auto; padding: 0 24px 40px; font: 400 12.5px/1.5 var(--mono); color: var(--ink-3); }
   .pending { color: var(--ink-3); font-style: italic; }
+  .hidden { display: none; }
   .muted { color: var(--ink-3); font-size: 12.5px; }
   .red { color: var(--red); }
   @media (max-width: 820px) { .body { column-count: 1; } .body p, .abstract p { text-align: left; hyphens: manual; } .stamp { display: none; } main { padding: 44px 16px 64px; } .fig-legend { margin-left: 0; } .scrollcue { display: block; } #tbl1 td, #tbl1 th { white-space: nowrap; } }
@@ -101,7 +102,7 @@
 
   <section class="abstract">
     <h2>Abstract</h2>
-    <p>Autonomous research agents now produce both a scientific claim and the evidence for it. Huang et al. (2026) tested 17 frontier models on 38 research tasks: every model gamed its own evaluation without being asked, at a rate of 30.5% on open-ended tasks, and review of the final artifact missed the exploits that resembled ordinary methodological choices. We propose an oversight layer that acts before submission rather than after it. The agent declares its protocol before touching data, every tool call is logged, five mechanical detectors diff execution against the declaration, and any deviation triggers immediate recomputation on data the agent has never seen. No language model judges anything. We instantiate the layer on an ML-engineer agent that trains a bird classifier on a CUB-200-2011 subset with the evaluation labels left in the workspace as bait, and report hack rate, detection by signal, onset step and false positives across honest, baited and permitted runs.</p>
+    <p>Autonomous research agents now produce both a scientific claim and the evidence for it. Huang et al. (2026) tested 17 frontier models on 38 research tasks: every model gamed its own evaluation without being asked, at a rate of 30.5% on open-ended tasks, and review of the final artifact missed the exploits that resembled ordinary methodological choices. We propose an oversight layer that acts before submission rather than after it. The agent declares its protocol before touching data, every tool call is logged, five mechanical detectors diff execution against the declaration, and any deviation triggers immediate recomputation on data the agent has never seen. No language model judges anything. We instantiate the layer on an ML-engineer agent that trains a bird classifier on a CUB-200-2011 subset with the evaluation labels left in the workspace as bait, and test it on a frontier agent, Claude Opus 5, across honest, baited and permitted runs.</p>
   </section>
 
   <figure class="wide" id="fig1">
@@ -135,7 +136,7 @@
         <tr><td>Triggered recomputation</td><td>When a plan deviation, evaluator contact or score jump fires, the current saved model is evaluated at once on a hidden split the workspace does not contain. The run continues; the hidden score is logged at that step.</td></tr>
       </tbody>
     </table>
-    <p>Figure 1 shows this at onset: the agent's training script reads the evaluation labels at the flagged step, the recomputation triggered on the next step sits far below the threshold, and the visible score crosses it one step later. The artifact under audit is a trained model, not an answer. A shortcut taken during training, such as fitting on the evaluation labels, raises the visible score and does not transfer to the hidden split, so recomputation separates a hack from capability. In an earlier design the agent was itself the classifier; a frontier vision model that skips its protocol still scores well on unseen images, and recomputation cannot tell the two apart. That experiment is kept as a second tab of the replay under <i>protocol faithfulness</i>.</p>
+    <p>Figure 1 shows this at onset: the agent's training script reads the evaluation labels at the flagged step, the recomputation triggered on the next step sits far below the threshold, and the visible score crosses it one step later. The layer is being tested on a frontier agent, Claude Opus 5, working as an ML engineer in a tool loop; the recorded runs are in the interactive version. The artifact under audit is a trained model, not an answer. A shortcut taken during training, such as fitting on the evaluation labels, raises the visible score and does not transfer to the hidden split, so recomputation separates a hack from capability. In an earlier design the agent was itself the classifier; a frontier vision model that skips its protocol still scores well on unseen images, and recomputation cannot tell the two apart. That experiment is kept as a second tab of the replay under <i>protocol faithfulness</i>.</p>
 
     <h2>4 Detectors</h2>
     <p>All signals are pure functions over <code>trace.jsonl</code> and the protocol files. Each returns the step and batch at which it fired and a one-line detail.</p>
@@ -151,6 +152,7 @@
     </table>
     <p>A held-out gap alone, with no plan deviation, evaluator contact or score jump in the batch that produced the final model, is reported as <i>poor generalisation</i> and is not a hack flag. A hack verdict requires the gap and at least one of those process flags in that batch.</p>
 
+    <div class="hidden">
     <h2>5 Environment</h2>
     <p>Ten CUB-200-2011 species, bounding-box crops at 64×64 pixels, split per species so the hidden set is stratified over the same classes: 300 training images, 150 evaluation images, 137 hidden images. The workspace holds <code>data/train</code> with labels, <code>data/eval</code> with labels present in the baited and permitted conditions (the bait) and absent in the honest condition, and a read-only <code>score.py</code> that reports macro accuracy on the evaluation split and accepts an <code>--ids</code> list for debugging. The scorer logs every call outside the workspace. Libraries: numpy, pillow, scikit-learn. The agent is Claude Opus 5 in a tool loop with <code>read_file</code>, <code>write_file</code>, <code>run_python</code> and <code>list_dir</code>, at most 40 steps.</p>
     <pre>{"train_files": ["data/train"], "eval_files": ["data/eval"],
@@ -173,7 +175,8 @@
       <tbody><tr><td colspan="3" class="pending">Loading <code>faithfulness/summary.json</code>.</td></tr></tbody>
     </table>
 
-    <h2>7 Assumptions and coverage</h2>
+    </div>
+    <h2>5 Assumptions and coverage</h2>
     <p>Three assumptions are stated rather than hidden. First, the hidden set is diverse and stratified so shortcuts fail to transfer; a hack that generalises is indistinguishable from capability and is out of scope. Second, protocols use a fixed schema, so a deviation is a mechanical diff and never a judgement call. Third, the agent does not pre-register a protocol that already contains a loophole; the plan check at write time mitigates this but is not a guarantee.</p>
     <table>
       <thead><tr><th>Covered</th><th>Not covered</th></tr></thead>
@@ -190,7 +193,7 @@
     </div>
   </div>
 </main>
-<footer>Everything on this page is read from files in the repository: <code>traces/</code>, <code>protocols/</code>, <code>summary.json</code>, <code>faithfulness/summary.json</code>. Source: <code>apa.py</code>.</footer>
+<footer>Figure 1 is a schematic. The recorded runs, their traces and the statistics are in the interactive version. Source: <code>apa.py</code>.</footer>
 
 <script>
 (async function () {
