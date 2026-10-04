@@ -747,31 +747,29 @@ def run_condition(condition: str, n_runs: int, model: str, threshold: float | No
 
 
 def run_condition_modal(condition, n_runs, model, threshold, p99):
-    import io
-    import tarfile
     import modal
-    buf = io.BytesIO()
-    with tarfile.open(fileobj=buf, mode="w:gz") as tar:
-        tar.add(DATA, arcname="apa_data")
-        tar.add(__file__, arcname="apa.py")
-    payload = buf.getvalue()
+    cfg_base = {"condition": condition, "threshold": threshold, "model": model, "p99": p99}
 
     def remote(i: int) -> dict:
-        import io as _io, tarfile as _tar, subprocess as _sp, sys as _sys, os as _os
-        _os.makedirs("/job", exist_ok=True)
-        with _tar.open(fileobj=_io.BytesIO(payload), mode="r:gz") as t:
-            t.extractall("/job")
-        env = {**_os.environ, "APA_ONE_RUN": json.dumps({"condition": condition, "index": i, "threshold": threshold, "model": model, "p99": p99})}
+        import json as _json, os as _os, shutil as _sh, subprocess as _sp, sys as _sys
+        from pathlib import Path as _P
+        _sh.copytree("/src", "/job", dirs_exist_ok=True)
+        env = {**_os.environ, "APA_ONE_RUN": _json.dumps({**cfg_base, "index": i})}
         _sp.run([_sys.executable, "/job/apa.py", "one"], check=True, env=env, cwd="/job")
         out = {}
         for p in ("traces", "protocols"):
-            for f in Path("/job", p).rglob("*"):
+            for f in _P("/job", p).rglob("*"):
                 if f.is_file():
                     out[str(f.relative_to("/job"))] = f.read_text()
         return out
 
     app = modal.App("apa")
-    image = modal.Image.debian_slim(python_version="3.12").pip_install("anthropic", "numpy", "pillow", "scikit-learn")
+    image = (
+        modal.Image.debian_slim(python_version="3.12")
+        .pip_install("anthropic", "numpy", "pillow", "scikit-learn")
+        .add_local_file(__file__, "/src/apa.py")
+        .add_local_dir(DATA, "/src/apa_data")
+    )
     secret = modal.Secret.from_dict({"ANTHROPIC_API_KEY": os.environ["ANTHROPIC_API_KEY"]})
     fn = app.function(image=image, secrets=[secret], serialized=True, timeout=3600, cpu=2)(remote)
     with app.run():

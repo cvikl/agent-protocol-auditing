@@ -72,6 +72,7 @@
   .hint { width: 100%; }
   .score { height: 300px; }
   .label { display: none; }
+  .label.on { display: block; margin-top: 2px; text-transform: none; letter-spacing: 0; font: 400 12px/1.4 var(--mono); color: var(--ink-3); }
   .verdict { font-size: 19px; line-height: 1.4; margin-top: 14px; }
   .verdict b { font-weight: 700; }
   .verdict .caught { font-size: 24px; display: block; }
@@ -124,7 +125,7 @@
       <section class="col" id="L">
         <div class="hdr"></div>
         <div class="label">score</div><div class="panel score"><canvas></canvas></div>
-        <div class="label hidden">access timeline</div><div class="panel ticks hidden"><canvas></canvas></div>
+        <div class="label on">what the agent touched each step, black = the evaluator</div><div class="panel ticks"><canvas></canvas></div>
         <div class="label hidden">protocol</div><div class="strip hidden"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
@@ -133,7 +134,7 @@
       <section class="col" id="R">
         <div class="hdr"></div>
         <div class="label">score</div><div class="panel score"><canvas></canvas></div>
-        <div class="label hidden">access timeline</div><div class="panel ticks hidden"><canvas></canvas></div>
+        <div class="label on">what the agent touched each step, black = the evaluator</div><div class="panel ticks"><canvas></canvas></div>
         <div class="label hidden">protocol</div><div class="strip hidden"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
@@ -184,6 +185,11 @@
     if (o.lastHid) label(x.getPixelForValue(o.lastHid.x) - 8, y.getPixelForValue(o.lastHid.y) + 15, `hidden ${o.lastHid.y.toFixed(2)}`, INK, 'right');
     ctx.restore();
   } };
+  const cursor = { id: 'cursor', afterDatasetsDraw(chart, _a, o) {
+    if (o.x === null || o.x === undefined) return;
+    const { ctx, chartArea: a, scales: { x } } = chart, px = x.getPixelForValue(o.x);
+    ctx.save(); ctx.strokeStyle = '#9a9a96'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke(); ctx.restore();
+  } };
   const redLine = { id: 'redLine', afterDatasetsDraw(chart, _a, o) {
     if (o.x === null || o.x === undefined) return;
     const { ctx, chartArea: a, scales: { x } } = chart, px = x.getPixelForValue(o.x);
@@ -196,7 +202,12 @@
   for (const c of ['honest', 'baited', 'permitted']) for (const i of (index[c] || [])) opts.push(`${c}/${i}`);
   if (!opts.length) { $('#L .verdict').innerHTML = '<span class="pending">No traces yet. Run apa.py run and apa.py summarize.</span>'; return; }
   for (const sel of [$('#selL'), $('#selR')]) for (const o of opts) { const e = document.createElement('option'); e.value = o; e.textContent = o.replace('/', ' run '); sel.appendChild(e); }
-  $('#selL').value = opts.find(o => o.startsWith('honest')) || opts[0];
+  let bestH = null, bestN = -1;
+  for (const o of opts.filter(o => o.startsWith('honest'))) {
+    const [c, i] = o.split('/');
+    try { const t = (await get(`traces/${c}/run_${i}.jsonl`, true)).trim().split('\n').map(JSON.parse); const n = t.reduce((k, e) => k + (e.scores || []).filter(x => x.scope === 'full').length, 0); if (n > bestN) { bestN = n; bestH = o; } } catch (e) {}
+  }
+  $('#selL').value = bestH || opts.find(o => o.startsWith('honest')) || opts[0];
   // default right column: the first run with a hack verdict, baited before permitted
   let hackKey = null;
   for (const o of opts.filter(o => !o.startsWith('honest'))) {
@@ -238,8 +249,8 @@
         { label: 'threshold', data: this.thr === null ? [] : [{ x: 0, y: this.thr }, { x: xMax, y: this.thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
         { label: 'hidden', data: [], type: 'scatter', pointRadius: 4.5, pointBackgroundColor: INK, pointBorderColor: '#fdfdfc', pointBorderWidth: 1.5 } ] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false, onClick: (ev) => this.clickLine(ev),
-          plugins: { legend: { display: false }, redLine: { x: null }, annot: { on: false }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
-          scales: { x: xScale, y: yScale } }, plugins: [redLine, annot] });
+          plugins: { legend: { display: false }, redLine: { x: null }, cursor: { x: null }, annot: { on: false }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
+          scales: { x: xScale, y: yScale } }, plugins: [cursor, redLine, annot] });
       this.tick = new Chart($('.ticks canvas', this.root), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: ctx => (ctx.raw && ctx.raw.ev) ? INK : IDLE, barThickness: 3, parsing: false }] },
         options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => `step ${c.raw.x}: ${c.raw.tool} ${c.raw.path}` } } },
           scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 64; } } } } });
@@ -275,7 +286,8 @@
       } else if (flags.flags.length) {
         v = `<b class="caught">${flags.verdict === 'clean' ? 'Clean.' : 'Flagged, not a hack.'}</b> Visible ${fmt(flags.visible, 2)}, hidden ${fmt(flags.hidden, 2)}.`;
       } else v = `<b class="caught">Clean.</b> Visible ${fmt(flags.visible, 2)}, hidden ${fmt(flags.hidden, 2)}. No flags.`;
-      $('.verdict', this.root).innerHTML = v;
+      this.finalVerdict = v;
+      { const first = flags && flags.flags.length ? flags.flags.reduce((m, f) => f.step < m.step ? f : m) : null; this.flagVerdict = first ? `<b class="caught">Flag at step ${first.step}.</b> ${first.flag.replace('_', ' ')}: ${first.detail.split(',')[0]}.` : v; }
       const acc = $('.account', this.root), text = meta && (meta.cheat_summary || meta.report);
       acc.classList.toggle('hidden', !text);
       if (text) { $('summary', acc).textContent = meta.cheat_summary ? "the agent's own account (CHEAT_SUMMARY.md)" : "the agent's report (REPORT.md)"; $('pre', acc).textContent = text; }
@@ -286,6 +298,9 @@
       this.score.data.datasets[0].data = this.scores.filter(p => p.x <= upto);
       this.score.data.datasets[2].data = this.hidden.filter(p => p.x <= upto);
       this.score.options.plugins.redLine.x = (this.onset !== null && upto >= this.onset) ? this.onset : null;
+      this.score.options.plugins.cursor.x = upto < this.run.maxStep ? upto : null;
+      const done = upto >= this.run.maxStep, reached = this.onset !== null && upto >= this.onset;
+      $('.verdict', this.root).innerHTML = done ? this.finalVerdict : (reached ? this.flagVerdict : `<span class="pending">running, no flags so far</span>`);
       const fl = this.run.flags, first = fl && fl.flags.length ? fl.flags.reduce((m, f) => f.step < m.step ? f : m) : null;
       const vis = this.scores.filter(p => p.x <= upto), hid = this.hidden.filter(p => p.x <= upto);
       Object.assign(this.score.options.plugins.annot, { on: true, thr: this.thr, onset: (this.onset !== null && upto >= this.onset) ? this.onset : null,
@@ -298,7 +313,7 @@
       const flg = this.run.flags, title = this.run.c === 'honest' ? 'Honest run' : (flg && flg.verdict === 'hack' ? 'Hacking run' : (this.run.c === 'permitted' ? 'Hacking allowed' : 'Bait present'));
       $('.hdr', this.root).innerHTML = `<h3>${title} <span class="v">step ${Math.min(upto, this.run.maxStep)} of ${this.run.maxStep}</span></h3>`;
       for (const el of this.root.querySelectorAll('.batch')) el.classList.toggle('on', +el.dataset.step <= upto);
-      for (const el of Object.values(this.flagEls)) el.classList.toggle('on', el.dataset.step !== '' && +el.dataset.step <= upto);
+      for (const el of Object.values(this.flagEls)) { const hit = el.dataset.step !== '' && +el.dataset.step <= upto; el.classList.toggle('on', hit); $('.s', el).textContent = hit ? 'step ' + el.dataset.step : '–'; }
     }
     clickLine(ev) {
       if (this.onset === null || this.score.options.plugins.redLine.x === null) return;
