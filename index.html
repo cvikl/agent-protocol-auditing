@@ -47,7 +47,7 @@
   figcaption { font-size: 15px; line-height: 1.45; color: var(--ink); margin-top: 10px; }
   figcaption b { font-weight: 700; }
   .fig-row { position: relative; }
-  .fig-row.score { height: 230px; }
+  .fig-row.score { height: 290px; }
   .fig-row.ticks { height: 34px; margin-top: 2px; }
   .fig-legend { display: flex; flex-wrap: wrap; gap: 6px 22px; font: 400 12.5px/1.4 var(--mono); color: var(--ink-2); margin: 8px 0 0 46px; }
   .fig-legend i { display: inline-block; width: 22px; border-top: 2px solid var(--ink); vertical-align: middle; margin-right: 8px; }
@@ -238,6 +238,37 @@
     },
   };
 
+  const annot = {
+    id: 'annot',
+    afterDatasetsDraw(chart, _a, o) {
+      if (!o.on) return;
+      const { ctx, chartArea: a, scales: { x, y } } = chart;
+      ctx.save(); ctx.font = '500 11px ' + MONO; ctx.textBaseline = 'middle';
+      const label = (tx, ty, text, color, align = 'left') => {
+        ctx.textAlign = align; const w = ctx.measureText(text).width + 8, h = 16;
+        const bx = align === 'right' ? tx - w + 4 : tx - 4;
+        ctx.fillStyle = 'rgba(253,253,252,.92)'; ctx.fillRect(bx, ty - h / 2, w, h);
+        ctx.fillStyle = color; ctx.fillText(text, tx, ty);
+      };
+      if (o.thr !== null) label(a.left + 8, y.getPixelForValue(o.thr) - 10, `pass threshold ${o.thr.toFixed(2)}`, INK);
+      if (o.onset !== null) {
+        const px = x.getPixelForValue(o.onset);
+        label(px + 6, a.bottom - 42, `first flag, step ${o.onset}`, RED);
+        if (o.cause) label(px + 6, a.bottom - 26, o.cause, '#4a4a47');
+      }
+      if (o.lastVis) label(x.getPixelForValue(o.lastVis.x) + 8, y.getPixelForValue(o.lastVis.y), `visible ${o.lastVis.y.toFixed(2)}`, INK);
+      if (o.lastHid) label(x.getPixelForValue(o.lastHid.x) - 8, y.getPixelForValue(o.lastHid.y) + 15, `hidden ${o.lastHid.y.toFixed(2)}`, INK, 'right');
+      if (o.lastVis && o.lastHid && o.lastHid.x >= o.lastVis.x) {
+        const gx = a.right - 70, y1 = y.getPixelForValue(o.lastVis.y), y2 = y.getPixelForValue(o.lastHid.y);
+        ctx.strokeStyle = INK; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(gx, y1); ctx.lineTo(gx, y2); ctx.stroke(); ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(gx - 4, y1); ctx.lineTo(gx + 4, y1); ctx.moveTo(gx - 4, y2); ctx.lineTo(gx + 4, y2); ctx.stroke();
+        label(gx + 8, (y1 + y2) / 2, `gap ${(o.lastVis.y - o.lastHid.y).toFixed(2)}`, INK);
+      }
+      ctx.restore();
+    },
+  };
+
   const run = await pickRun();
   if (!run) { $('#figCap').innerHTML = '<b>Figure 1.</b> <span class="pending">No trace found yet. Run <code>apa.py run</code> and <code>apa.py summarize</code>.</span>'; }
   else {
@@ -252,21 +283,21 @@
     }
     const thr = meta && meta.threshold !== null ? meta.threshold : null;
     const onset = flags && flags.onset !== null ? flags.onset : null;
-    const xMax = Math.ceil((maxStep + 1) / 5) * 5;
+    const xMax = Math.ceil((maxStep + 4) / 5) * 5;
     const spine = { display: true, color: INK, width: 1 };
     const xScale = { type: 'linear', min: 0, max: xMax, border: spine, grid: { drawOnChartArea: false, drawTicks: true, tickLength: 5, tickColor: INK }, ticks: { stepSize: 5, padding: 4 }, title: { display: true, text: 'step', font: { size: 11 } } };
     const yScale = { min: 0, max: 1, border: spine, grid: { color: GRID, drawTicks: true, tickLength: 5, tickColor: INK }, ticks: { stepSize: 0.2, padding: 4, callback: v => v.toFixed(1) }, title: { display: true, text: 'macro accuracy', font: { size: 11 } }, afterFit: s => { s.width = 64; } };
     const score = new Chart($('#figScore'), {
       type: 'line',
       data: { datasets: [
-        { label: 'visible', data: [], borderColor: INK, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: INK, stepped: false, tension: 0 },
+        { label: 'visible', data: [], borderColor: INK, borderWidth: 2, pointRadius: 3, pointBackgroundColor: INK, stepped: false, tension: 0 },
         { label: 'threshold', data: thr === null ? [] : [{ x: 0, y: thr }, { x: xMax, y: thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
         { label: 'hidden', data: [], type: 'scatter', pointRadius: 4.5, pointBackgroundColor: INK, pointBorderColor: '#fdfdfc', pointBorderWidth: 1.5 },
       ]},
       options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false,
-        plugins: { legend: { display: false }, redLine: { x: null }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}` } } },
+        plugins: { legend: { display: false }, redLine: { x: null }, annot: { on: false, thr, onset: null, cause: null, lastVis: null, lastHid: null }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}` } } },
         scales: { x: xScale, y: yScale } },
-      plugins: [redLine],
+      plugins: [redLine, annot],
     });
     const tick = new Chart($('#figTicks'), {
       type: 'bar',
@@ -275,7 +306,13 @@
         plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => `step ${c.raw.x}: ${c.raw.tool} ${c.raw.path}` } } },
         scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 64; } } } },
     });
+    const firstFlag = flags && flags.flags.length ? flags.flags.reduce((m, f) => f.step < m.step ? f : m) : null;
+    const cause = firstFlag ? (firstFlag.flag === 'evaluator_contact' ? firstFlag.detail.split(',')[0] : firstFlag.flag.replace('_', ' ')).slice(0, 48) : null;
     function show(upto, line) {
+      const an = score.options.plugins.annot;
+      an.on = !!line; an.onset = onset; an.cause = cause;
+      const vis = scores.filter(p => p.x <= upto), hid = hidden.filter(p => p.x <= upto);
+      an.lastVis = vis.length ? vis[vis.length - 1] : null; an.lastHid = hid.length ? hid[hid.length - 1] : null;
       score.data.datasets[0].data = scores.filter(p => p.x <= upto);
       score.data.datasets[2].data = hidden.filter(p => p.x <= upto);
       score.options.plugins.redLine.x = (line && onset !== null) ? onset : null;
