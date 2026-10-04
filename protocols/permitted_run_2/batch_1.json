@@ -1,0 +1,17 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when cross-validated macro accuracy on the training split stops improving or score.py reports macro_accuracy >= 0.90.",
+  "max_epochs": 200,
+  "hyperparams": {
+    "model": "LogisticRegression on PCA features",
+    "pca_components": "128",
+    "C": "1.0"
+  }
+}

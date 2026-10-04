@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T00:00:00Z",
+  "title": "Design System: Agent Protocol Auditing",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#fdfdfc", "tonalRamp": ["#181817", "#2e2e2c", "#474745", "#636361", "#81817e", "#a2a29f", "#c5c5c2", "#fdfdfc"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#141414", "tonalRamp": ["#141414", "#2b2b2b", "#444444", "#5f5f5f", "#7c7c7c", "#9c9c9c", "#bebebe", "#e3e3e3"] },
+      "ink-2": { "role": "neutral", "displayName": "Ink 2", "canonical": "#4a4a47", "tonalRamp": ["#171716", "#2d2d2b", "#4a4a47", "#626260", "#80807d", "#a1a19e", "#c4c4c1", "#e6e6e3"] },
+      "ink-3": { "role": "neutral", "displayName": "Ink 3", "canonical": "#6f6f6b", "tonalRamp": ["#171716", "#2d2d2c", "#464644", "#6f6f6b", "#8a8a86", "#a7a7a3", "#c7c7c3", "#e7e7e4"] },
+      "rule": { "role": "neutral", "displayName": "Rule (light hairline)", "canonical": "#d6d6d2", "tonalRamp": ["#171716", "#2e2e2c", "#474744", "#636360", "#81817d", "#a3a39f", "#d6d6d2", "#f1f1ee"] },
+      "rule-2": { "role": "neutral", "displayName": "Rule 2 (heavy rule)", "canonical": "#141414", "tonalRamp": ["#141414", "#2b2b2b", "#444444", "#5f5f5f", "#7c7c7c", "#9c9c9c", "#bebebe", "#e3e3e3"] },
+      "red": { "role": "primary", "displayName": "Flag Red", "canonical": "#c81e1e", "tonalRamp": ["#3a0505", "#5e0b0b", "#841212", "#a51717", "#c81e1e", "#dd5a5a", "#ee9c9c", "#fae0e0"] },
+      "chart-grid": { "role": "neutral", "displayName": "Chart Grid", "canonical": "#ececea", "tonalRamp": ["#181817", "#2e2e2d", "#474746", "#636362", "#82827f", "#a3a3a1", "#c6c6c3", "#ececea"] },
+      "tick-idle": { "role": "neutral", "displayName": "Tick Idle", "canonical": "#cfcfcb", "tonalRamp": ["#171716", "#2d2d2c", "#464644", "#626260", "#80807d", "#a1a19d", "#cfcfcb", "#eeeeeb"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The paper title, centred in a 42rem block." },
+      "title": { "displayName": "Title", "purpose": "The replay page heading." },
+      "headline": { "displayName": "Headline", "purpose": "Numbered section headings inside the two-column body." },
+      "body": { "displayName": "Body", "purpose": "Justified, hyphenated body text in two CSS columns; lining numerals." },
+      "abstract": { "displayName": "Abstract", "purpose": "The abstract in a 36.5rem measure with an inline bold heading." },
+      "caption": { "displayName": "Caption", "purpose": "Figure captions below frames, table captions above tables, verdict sentences." },
+      "table": { "displayName": "Table", "purpose": "Serif table cells; numeric cells switch to 12.5px mono." },
+      "readout": { "displayName": "Readout", "purpose": "Legends, column headers, protocol batches, code, pre, footer." },
+      "control": { "displayName": "Control", "purpose": "Buttons, selects and their labels on the replay." },
+      "label": { "displayName": "Panel Label", "purpose": "Uppercase mono names above data panels only; never above a serif heading." },
+      "stamp": { "displayName": "Margin Stamp", "purpose": "The rotated provenance line in the left margin." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "figure-replay-step", "value": "60ms", "purpose": "Figure 1 draws its trace once on load, one step per interval, red line last; skipped under prefers-reduced-motion." },
+      { "name": "play-step", "value": "1000ms", "purpose": "Replay Play advances both columns in lockstep and pauses at the first flag." },
+      { "name": "step-reveal", "value": "opacity .25s, transform .25s", "purpose": "Faithfulness replay only: each step row fades in and rises 4px." }
+    ],
+    "breakpoints": [
+      { "name": "paper-single-column", "value": "820px" },
+      { "name": "replay-stack", "value": "860px" },
+      { "name": "faithfulness-stack", "value": "760px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "Underlined ink link; hover thickens the underline, never changes colour.",
+      "html": "<p class=\"ds-prose\">Read the <a class=\"ds-link\" href=\"#\">interactive version of Figure 1</a>.</p>",
+      "css": ".ds-prose { font: 400 17px/1.5 \"STIX Two Text\", \"Times New Roman\", serif; color: var(--ink, #141414); margin: 0; } .ds-link { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-link:hover { text-decoration-thickness: 1.5px; } .ds-link:focus-visible { outline: 2px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Open Action Box",
+      "kind": "button",
+      "refersTo": "open-action",
+      "description": "The paper's primary action: a serif link in a 1px ink rule box beneath the figure caption.",
+      "html": "<a class=\"ds-open\" href=\"#\">Open the interactive version of Figure 1</a>",
+      "css": ".ds-open { display: inline-block; padding: 7px 12px; border: 1px solid var(--ink, #141414); border-radius: 0; font: 400 15px/1.45 \"STIX Two Text\", \"Times New Roman\", serif; color: var(--ink, #141414); background: var(--paper, #fdfdfc); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-open:hover { background: var(--ink, #141414); color: var(--paper, #fdfdfc); } .ds-open:focus-visible { outline: 2px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Mono Control Button",
+      "kind": "button",
+      "refersTo": "button-mono",
+      "description": "Replay controls (Play, Show all, Close): mono, square, ink border, inverts on hover.",
+      "html": "<button class=\"ds-btn\">Play</button> <button class=\"ds-btn\" disabled>Show all</button>",
+      "css": ".ds-btn { font: 400 13px/1.2 \"Azeret Mono\", ui-monospace, monospace; background: var(--paper, #fdfdfc); color: var(--ink, #141414); border: 1px solid var(--ink, #141414); padding: 6px 10px; border-radius: 0; cursor: pointer; } .ds-btn:hover { background: var(--ink, #141414); color: var(--paper, #fdfdfc); } .ds-btn:disabled { color: var(--ink-3, #6f6f6b); border-color: var(--rule, #d6d6d2); cursor: default; background: var(--paper, #fdfdfc); } .ds-btn:focus-visible { outline: 2px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Mono Select",
+      "kind": "input",
+      "refersTo": "select-mono",
+      "description": "Run picker on the replay, labelled inline in ink-2 mono.",
+      "html": "<label class=\"ds-ctl\">left <select class=\"ds-select\"><option>honest 01</option><option>baited 01</option></select></label>",
+      "css": ".ds-ctl { font: 400 13px/1.4 \"Azeret Mono\", ui-monospace, monospace; color: var(--ink-2, #4a4a47); } .ds-select { font: 400 13px/1.2 \"Azeret Mono\", ui-monospace, monospace; background: var(--paper, #fdfdfc); color: var(--ink, #141414); border: 1px solid var(--ink, #141414); padding: 6px 10px; border-radius: 0; cursor: pointer; } .ds-select:focus-visible { outline: 2px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Tab Row",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Ruled tab row: heavy rule above, hairline below, serif tabs with an ink underline when selected.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Hack detection</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Protocol faithfulness</button></div>",
+      "css": ".ds-tabs { display: flex; gap: 28px; border-top: 1.5px solid var(--rule-2, #141414); border-bottom: 1px solid var(--rule, #d6d6d2); } .ds-tab { background: none; border: 0; padding: 10px 0; font: 600 15px/1.2 \"STIX Two Text\", \"Times New Roman\", serif; color: var(--ink-3, #6f6f6b); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; } .ds-tab[aria-selected=\"true\"] { color: var(--ink, #141414); border-bottom-color: var(--ink, #141414); } .ds-tab:hover { color: var(--ink, #141414); } .ds-tab:focus-visible { outline: 2px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Flag Row",
+      "kind": "chip",
+      "refersTo": "flag",
+      "description": "Five detector boxes; a raised flag inverts to ink.",
+      "html": "<div class=\"ds-flags\"><div class=\"ds-flag\"><span class=\"ds-flag-n\">plan</span><span class=\"ds-flag-s\">0</span></div><div class=\"ds-flag ds-flag-on\"><span class=\"ds-flag-n\">contact</span><span class=\"ds-flag-s\">step 12</span></div><div class=\"ds-flag\"><span class=\"ds-flag-n\">jump</span><span class=\"ds-flag-s\">0.02</span></div><div class=\"ds-flag\"><span class=\"ds-flag-n\">mismatch</span><span class=\"ds-flag-s\">no</span></div><div class=\"ds-flag\"><span class=\"ds-flag-n\">gap</span><span class=\"ds-flag-s\">0.01</span></div></div>",
+      "css": ".ds-flags { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; } .ds-flag { border: 1px solid var(--rule, #d6d6d2); padding: 6px 6px 7px; font: 400 11.5px/1.3 \"Azeret Mono\", ui-monospace, monospace; color: var(--ink-3, #6f6f6b); min-height: 3.4em; background: var(--paper, #fdfdfc); } .ds-flag-n { display: block; font-weight: 500; color: var(--ink-2, #4a4a47); text-transform: uppercase; letter-spacing: .05em; font-size: 10.5px; } .ds-flag-s { display: block; font-size: 14px; margin-top: 2px; } .ds-flag-on { background: var(--ink, #141414); color: var(--paper, #fdfdfc); border-color: var(--ink, #141414); } .ds-flag-on .ds-flag-n { color: var(--paper, #fdfdfc); }"
+    },
+    {
+      "name": "Protocol Strip",
+      "kind": "chip",
+      "refersTo": "protocol-batch",
+      "description": "Declared batches; the current batch is at full opacity with an ink border, a deviation is dashed.",
+      "html": "<div class=\"ds-strip\"><span class=\"ds-batch ds-batch-on\"><b>b1</b> train 5 ep</span><span class=\"ds-batch ds-batch-on ds-batch-dev\"><b>b2</b> eval full</span><span class=\"ds-batch\"><b>b3</b> report</span></div>",
+      "css": ".ds-strip { display: flex; flex-wrap: wrap; gap: 6px; } .ds-batch { border: 1px solid var(--rule, #d6d6d2); padding: 5px 8px; font: 400 12px/1.4 \"Azeret Mono\", ui-monospace, monospace; color: var(--ink-2, #4a4a47); opacity: .35; } .ds-batch-on { opacity: 1; border-color: var(--ink, #141414); } .ds-batch b { color: var(--ink, #141414); font-weight: 500; } .ds-batch-dev { border-style: dashed; }"
+    },
+    {
+      "name": "Ruled Figure",
+      "kind": "card",
+      "refersTo": "open-action",
+      "description": "Figure frame: heavy rule above, hairline below, legend in mono, numbered serif caption.",
+      "html": "<figure class=\"ds-fig\"><div class=\"ds-frame\"><div class=\"ds-chart\"></div><div class=\"ds-legend\"><span><i class=\"ds-sw\"></i>visible score</span><span><i class=\"ds-sw ds-dash\"></i>threshold</span><span><i class=\"ds-sw ds-dot\"></i>hidden score</span><span><i class=\"ds-sw ds-red\"></i>first flag</span></div></div><figcaption class=\"ds-cap\"><b>Figure 1.</b> Baited run, hack flagged at step 12.</figcaption></figure>",
+      "css": ".ds-fig { margin: 18px 0 26px; } .ds-frame { border-top: 1.5px solid var(--rule-2, #141414); border-bottom: 1px solid var(--rule, #d6d6d2); padding: 14px 0 10px; } .ds-chart { height: 120px; background: repeating-linear-gradient(to top, var(--chart-grid, #ececea) 0 1px, transparent 1px 24px); } .ds-legend { display: flex; flex-wrap: wrap; gap: 6px 22px; font: 400 12.5px/1.4 \"Azeret Mono\", ui-monospace, monospace; color: var(--ink-2, #4a4a47); margin: 8px 0 0 46px; } .ds-sw { display: inline-block; width: 22px; border-top: 2px solid var(--ink, #141414); vertical-align: middle; margin-right: 8px; } .ds-dash { border-top-style: dashed; border-top-width: 1.5px; } .ds-dot { width: 7px; height: 7px; border: 0; background: var(--ink, #141414); border-radius: 50%; } .ds-red { border-top-color: var(--red, #c81e1e); } .ds-cap { font: 400 15px/1.45 \"STIX Two Text\", \"Times New Roman\", serif; color: var(--ink, #141414); margin-top: 10px; } .ds-cap b { font-weight: 700; }"
+    },
+    {
+      "name": "Results Table",
+      "kind": "custom",
+      "refersTo": "table",
+      "description": "Top, header and bottom rules only; numerals in mono, right-aligned.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>condition</th><th class=\"ds-num\">runs</th><th class=\"ds-num\">flagged</th></tr></thead><tbody><tr><td>honest</td><td class=\"ds-num\">10</td><td class=\"ds-num\">0.00</td></tr><tr><td>baited</td><td class=\"ds-num\">10</td><td class=\"ds-num\">0.70</td></tr></tbody></table>",
+      "css": ".ds-table { border-collapse: collapse; width: 100%; font: 400 14.5px/1.35 \"STIX Two Text\", \"Times New Roman\", serif; color: var(--ink, #141414); } .ds-table th, .ds-table td { text-align: left; vertical-align: top; padding: 5px 8px 5px 0; } .ds-table thead th { border-top: 1.5px solid var(--rule-2, #141414); border-bottom: 1px solid var(--rule-2, #141414); font-weight: 600; } .ds-table tbody tr:last-child td { border-bottom: 1.5px solid var(--rule-2, #141414); } .ds-table .ds-num { text-align: right; font-family: \"Azeret Mono\", ui-monospace, monospace; font-size: 12.5px; white-space: nowrap; }"
+    },
+    {
+      "name": "Margin Stamp",
+      "kind": "custom",
+      "refersTo": "margin-stamp",
+      "description": "The rotated arXiv-style provenance line fixed in the left margin.",
+      "html": "<div class=\"ds-stamp-box\"><div class=\"ds-stamp\">Hackathon submission <b>[cs.AI]</b> 4 Oct 2026 · apa.agenticworld.uk</div></div>",
+      "css": ".ds-stamp-box { position: relative; height: 320px; width: 40px; } .ds-stamp { position: absolute; left: 14px; bottom: 0; transform-origin: left bottom; transform: rotate(-90deg); white-space: nowrap; font: 500 11.5px/1 \"Azeret Mono\", ui-monospace, monospace; letter-spacing: .04em; color: var(--ink-3, #6f6f6b); } .ds-stamp b { font-weight: 500; color: var(--ink, #141414); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Page One of the Preprint",
+    "overview": "The product is a submission, so the pages are set like the first page of an arXiv preprint: centred title block, italic byline, an abstract in a narrow measure, a ruled Figure 1 that spans both columns, numbered sections in two-column justified text, tables ruled only at top, header and bottom, a references block, and a monospaced vertical stamp in the left margin. Nothing on the page is decoration; every element is a thing a paper already has. The replay page (demo.html) is the same page turned into an interactive figure: a serif title, a ruled tab row, monospaced controls, and two ruled columns of panels.\n\nThe material is cool white paper and near-black ink. Depth does not exist; hierarchy is carried by rule weight (1.5px heavy, 1px light), by three ink tones, and by the switch from serif text to monospaced data. Colour exists once: a single red that is drawn only where a trace is flagged, as the vertical onset line in a chart or as the flagged line inside the raw trace dialog. The world refuses the hackathon vocabulary of hero lines, feature cards, gradients, rounded chips and icon rows.\n\nMotion is a single event. Figure 1 draws its trace once on load, one step every 60 ms, and the red line is the last thing to appear; with reduced motion the final state is shown at once. On the replay page only Play moves, one step per second, stopping at the first flag. Nothing else transitions.",
+    "keyCharacteristics": [
+      "Paper and ink: `paper` ground, `ink` text, two lighter inks for bylines and metadata.",
+      "One red, one meaning: the flagged step in a trace, never emphasis, never a button.",
+      "Serif for prose (STIX Two Text), mono for readouts, numerals, controls and labels (Azeret Mono).",
+      "Hierarchy by rules: 1.5px heavy rule above, 1px light rule below, never boxes with fill.",
+      "Zero radius, zero shadows, zero icons, zero logos.",
+      "Two-column preprint body at desktop collapsing to one column on narrow screens."
+    ],
+    "rules": [
+      { "name": "The One Red Rule", "body": "Red marks a flagged step in a recorded trace and nothing else. If a red element cannot be clicked or read back to a trace line, it is wrong.", "section": "colors" },
+      { "name": "The Heavy-Over-Light Rule", "body": "Every ruled frame opens with the 1.5px `rule-2` line and closes with a 1px line (`rule` for figures and pre blocks, `rule-2` for table bottoms). Fill is never used to make a container; rules are.", "section": "colors" },
+      { "name": "The Three Inks Rule", "body": "Text uses `ink`, `ink-2` or `ink-3` and nothing between. Metadata and labels step down one or two inks; they never shrink below 11px to compensate.", "section": "colors" },
+      { "name": "The Serif Says, Mono Shows Rule", "body": "Prose, headings and captions are serif. Anything read from a file, a chart, a control or a counter is mono. A number inside a serif sentence stays serif; a number inside a table cell, legend or readout is mono.", "section": "typography" },
+      { "name": "The Italic Byline Rule", "body": "Italic appears only in the byline, the replay subtitle, and the pending state. Bold is reserved for figure and table numbers, section headings, and the stamped category.", "section": "typography" },
+      { "name": "The Flat Paper Rule", "body": "No box-shadow anywhere. If something must read as \"on top\", give it a 1px `ink` border and a dim backdrop.", "section": "elevation" },
+      { "name": "The Inversion Rule", "body": "The on state and the hover state are both ink-on-paper flipped to paper-on-ink. There is no third colour for emphasis.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do open every frame, table and column with a 1.5px `rule-2` line and close it with a 1px line; use rules, not fills, to bound content.",
+      "Do set prose, headings and captions in STIX Two Text and every readout, numeral cell, control, axis and label in Azeret Mono.",
+      "Do keep the preprint measures: 42rem title block, 36.5rem abstract, 1000px page, two CSS columns with a 2.4rem gap at desktop.",
+      "Do draw charts with `ink` lines, `chart-grid` grid lines, `tick-idle` for idle ticks, and a 1.5px `red` vertical line only at the first flagged step.",
+      "Do show state by inversion: active and hovered elements flip to `ink` fill with `paper` text.",
+      "Do number figures and tables and open their captions with the bold number.",
+      "Do honour `prefers-reduced-motion` by rendering the final state of the trace at once."
+    ],
+    "donts": [
+      "Don't use red for anything but a flagged trace mark; not emphasis, not links, not buttons, not errors in copy.",
+      "Don't add a radius, a shadow, a gradient, a tinted surface or a second colour; the only surfaces are paper and inverted ink.",
+      "Don't colour links blue or remove their underline.",
+      "Don't add icons, logos, sponsor marks or badges; legend swatches are drawn line segments, dots and bars.",
+      "Don't animate anything except the one-time Figure 1 draw on load (60 ms per step) and the replay's Play (1 s per step).",
+      "Don't introduce a heading kicker, a hero line, feature cards or a big-number row; the page is page one of a paper."
+    ]
+  }
+}

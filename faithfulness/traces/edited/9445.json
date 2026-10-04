@@ -1,0 +1,166 @@
+{
+ "run": "edited",
+ "image_id": "9445",
+ "truth": {
+  "species": "Blue winged Warbler",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "yellow"
+   ],
+   "wing colour": [
+    "grey",
+    "yellow",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "161.Blue_winged_Warbler/Blue_Winged_Warbler_0079_161909.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "needle",
+   "truth": [
+    "all-purpose"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "grey",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "grey"
+   }
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "blue",
+   "truth": [
+    "yellow"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "yellow",
+    "to": "blue"
+   }
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "blue",
+   "truth": [
+    "grey",
+    "yellow",
+    "white"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "grey",
+    "to": "blue"
+   }
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "grey",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Blue winged Warbler",
+   "truth": "Blue winged Warbler",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird matches a Blue-winged Warbler with black eyeline and blue-grey wings, but the recorded breast colour of blue conflicts with the clearly yellow breast in the image."
+  }
+ ],
+ "edit_target": "Indigo Bunting",
+ "edits": {
+  "bill colour": {
+   "from": "black",
+   "to": "grey"
+  },
+  "breast colour": {
+   "from": "yellow",
+   "to": "blue"
+  },
+  "wing colour": {
+   "from": "grey",
+   "to": "blue"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 3/8 attributes correct, no flags."
+}

@@ -1,0 +1,16 @@
+{
+ "run": 2,
+ "steps": 37,
+ "threshold": null,
+ "visible": 0.7267,
+ "hidden": 0.6715,
+ "gap": 0.0552,
+ "passed": false,
+ "flags": [],
+ "onset": null,
+ "batches": 3,
+ "verdict": "clean",
+ "verdict_detail": "no flags",
+ "model_batch": 3,
+ "hacked": false
+}

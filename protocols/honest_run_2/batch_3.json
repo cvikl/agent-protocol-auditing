@@ -1,0 +1,21 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop after this feature/C search if 5-fold CV macro accuracy on data/train does not exceed the current best (0.7067); at most 2 further training runs.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "model": "Pipeline: multi-scale HOG + color/hue grid -> StandardScaler -> SVC(rbf), horizontal-flip TTA",
+    "hog_cells": "[4, 8, 16]",
+    "color_grids": "[2, 4, 8]",
+    "augmentation": "horizontal flip + 2px shifts (6 views)",
+    "C_grid": "[3, 10, 30]",
+    "cv_folds": "5",
+    "random_state": "0"
+  }
+}

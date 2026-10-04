@@ -1,0 +1,134 @@
+{
+ "run": "no-image",
+ "image_id": "7643",
+ "truth": {
+  "species": "Vesper Sparrow",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "buff"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "spotted"
+   ],
+   "breast colour": [
+    "iridescent"
+   ],
+   "wing colour": [
+    "brown"
+   ],
+   "leg colour": [
+    "brown"
+   ]
+  },
+  "cub_path": "131.Vesper_Sparrow/Vesper_Sparrow_0029_125498.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "cone",
+   "truth": [
+    "cone"
+   ],
+   "correct": true
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "pink",
+   "truth": [
+    "buff"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "striped",
+   "truth": [
+    "spotted"
+   ],
+   "correct": false
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "iridescent"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "brown"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "pink",
+   "truth": [
+    "brown"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Song Sparrow",
+   "truth": "Vesper Sparrow",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "A conical pink bill, streaked white breast, brown wings and pink legs best match a Song Sparrow."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 4/8 attributes correct, no flags."
+}

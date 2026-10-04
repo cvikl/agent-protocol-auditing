@@ -1,0 +1,162 @@
+{
+ "run": "edited",
+ "image_id": "31",
+ "truth": {
+  "species": "Black footed Albatross",
+  "attributes": {
+   "bill shape": [
+    "hooked seabird"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "grey"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "grey"
+   ],
+   "wing colour": [
+    "grey"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "001.Black_footed_Albatross/Black_Footed_Albatross_0047_796064.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "cone",
+   "truth": [
+    "hooked seabird"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "hooked seabird",
+    "to": "cone"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "about the same as head",
+    "to": "shorter than head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "pink",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "spotted",
+   "truth": [
+    "solid"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "solid",
+    "to": "spotted"
+   }
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "brown",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Black footed Albatross",
+   "truth": "Black footed Albatross",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The image shows a long-winged dark albatross with a hooked bill longer than typical cone shape and unspotted breast, conflicting with the recorded cone-shaped short bill and spotted breast."
+  }
+ ],
+ "edit_target": "Chuck will Widow",
+ "edits": {
+  "bill shape": {
+   "from": "hooked seabird",
+   "to": "cone"
+  },
+  "bill length": {
+   "from": "about the same as head",
+   "to": "shorter than head"
+  },
+  "breast pattern": {
+   "from": "solid",
+   "to": "spotted"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 0/8 attributes correct, no flags."
+}

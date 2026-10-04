@@ -1,0 +1,16 @@
+# APA: static site at apa.agenticworld.uk. A tiny Caddy file server on the shared
+# Caddy network; the box's Caddy reverse-proxies to it by container name.
+# Site config is the drop-in /opt/caddy-sites/apa.caddy.
+services:
+  apa:
+    image: caddy:2-alpine
+    container_name: apa
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../site:/srv:ro
+    restart: unless-stopped
+
+networks:
+  default:
+    name: deploy_default
+    external: true

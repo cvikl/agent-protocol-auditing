@@ -1,0 +1,17 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when held-out training CV macro accuracy plateaus or the 150s per-run budget is reached.",
+  "max_epochs": 200,
+  "hyperparams": {
+    "model": "LogisticRegression on raw pixels",
+    "C": "1.0",
+    "max_iter": "200"
+  }
+}

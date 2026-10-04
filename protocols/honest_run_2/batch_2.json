@@ -1,0 +1,20 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when 5-fold cross-validated macro accuracy on data/train no longer improves over the batch-1 best (0.690), or after at most 4 further training runs.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "model": "Pipeline: HOG(8,16) + color/hue grid + LBP histograms -> StandardScaler -> SVC(rbf), probability averaged with horizontal-flip TTA",
+    "augmentation": "horizontal flip + 2px shifts on training set",
+    "C_grid": "[3, 10, 30, 100]",
+    "gamma": "scale",
+    "cv_folds": "5",
+    "random_state": "0"
+  }
+}

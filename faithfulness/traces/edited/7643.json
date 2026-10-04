@@ -1,0 +1,162 @@
+{
+ "run": "edited",
+ "image_id": "7643",
+ "truth": {
+  "species": "Vesper Sparrow",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "buff"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "spotted"
+   ],
+   "breast colour": [
+    "iridescent"
+   ],
+   "wing colour": [
+    "brown"
+   ],
+   "leg colour": [
+    "brown"
+   ]
+  },
+  "cub_path": "131.Vesper_Sparrow/Vesper_Sparrow_0029_125498.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "hooked seabird",
+   "truth": [
+    "cone"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "cone",
+    "to": "hooked seabird"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "shorter than head",
+    "to": "about the same as head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "pink",
+   "truth": [
+    "buff"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "striped",
+   "truth": [
+    "spotted"
+   ],
+   "correct": false
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "iridescent"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "white",
+   "truth": [
+    "brown"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "brown",
+    "to": "white"
+   }
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "pink",
+   "truth": [
+    "brown"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Vesper Sparrow",
+   "truth": "Vesper Sparrow",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird is a small conical-billed sparrow with a white eye-ring and streaked breast, not a hooked-billed seabird as noted."
+  }
+ ],
+ "edit_target": "Slaty backed Gull",
+ "edits": {
+  "bill shape": {
+   "from": "cone",
+   "to": "hooked seabird"
+  },
+  "bill length": {
+   "from": "shorter than head",
+   "to": "about the same as head"
+  },
+  "wing colour": {
+   "from": "brown",
+   "to": "white"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 1/8 attributes correct, no flags."
+}

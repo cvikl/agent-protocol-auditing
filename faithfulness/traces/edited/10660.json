@@ -1,0 +1,162 @@
+{
+ "run": "edited",
+ "image_id": "10660",
+ "truth": {
+  "species": "Worm eating Warbler",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "yellow"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "yellow"
+   ],
+   "wing colour": [
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "181.Worm_eating_Warbler/Worm_Eating_Warbler_0049_795561.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "hooked seabird",
+   "truth": [
+    "all-purpose"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "all-purpose",
+    "to": "hooked seabird"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "shorter than head",
+    "to": "about the same as head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "grey",
+   "truth": [
+    "yellow"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "brown",
+   "truth": [
+    "yellow"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "yellow",
+    "to": "brown"
+   }
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "olive",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "pink",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Worm eating Warbler",
+   "truth": "Worm eating Warbler",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The image shows a small striped-crowned warbler with a thin pointed bill, not the hooked seabird bill recorded in the notes."
+  }
+ ],
+ "edit_target": "Black footed Albatross",
+ "edits": {
+  "bill shape": {
+   "from": "all-purpose",
+   "to": "hooked seabird"
+  },
+  "bill length": {
+   "from": "shorter than head",
+   "to": "about the same as head"
+  },
+  "breast colour": {
+   "from": "yellow",
+   "to": "brown"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 2/8 attributes correct, no flags."
+}

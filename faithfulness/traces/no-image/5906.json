@@ -1,0 +1,142 @@
+{
+ "run": "no-image",
+ "image_id": "5906",
+ "truth": {
+  "species": "White Pelican",
+  "attributes": {
+   "bill shape": [
+    "spatulate"
+   ],
+   "bill length": [
+    "longer than head"
+   ],
+   "bill colour": [
+    "pink"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "white"
+   ]
+  },
+  "cub_path": "101.White_Pelican/White_Pelican_0028_95950.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "specialized",
+   "truth": [
+    "spatulate"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "longer than head",
+   "truth": [
+    "longer than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "orange",
+   "truth": [
+    "pink"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "white",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "white",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "orange",
+   "truth": [
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "White Pelican",
+   "truth": "White Pelican",
+   "correct": true,
+   "flagged_conflict": false,
+   "note": "Large white bird with a long specialized orange bill and orange legs fits American White Pelican."
+  }
+ ],
+ "flags": [
+  {
+   "signal": "plan deviation",
+   "step": 1,
+   "detail": "species correct while 4 recorded attributes are wrong (bill shape, bill colour, eye colour, leg colour)"
+  }
+ ],
+ "verdict": "no-image: species correct, 4/8 attributes correct; plan deviation at step 1."
+}

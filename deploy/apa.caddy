@@ -1,0 +1,7 @@
+# apa.agenticworld.uk: Pre-registered Protocol Auditing, static site.
+# Drop-in for the shared Caddy on the host (drop-ins live in /opt/caddy-sites).
+apa.agenticworld.uk {
+	encode gzip zstd
+	header X-Robots-Tag "noindex"
+	reverse_proxy apa:80
+}

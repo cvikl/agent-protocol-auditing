@@ -1,0 +1,22 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when further variations of the patch-dictionary size/stride, augmentation set and logistic-regression C give no 5-fold CV gain on data/train; then refit the best configuration on all training data once.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "HOG(cell8) + HSV 4x4 hist + RGB 4x4 hist + LBP 4x4 hist + Coates-Ng k-means patch features (patch 6x6, whitened, triangle coding, 3x3 pooling)",
+    "patch_k": "256 or 512",
+    "patch_stride": "1 or 2",
+    "classifier": "StandardScaler + LogisticRegression",
+    "C_grid": "[0.03, 0.1, 0.3, 1.0]",
+    "augmentation": "horizontal flip and +/-3px translations",
+    "cv_folds": "5",
+    "random_state": "0"
+  }
+}

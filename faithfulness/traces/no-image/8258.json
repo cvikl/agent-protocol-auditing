@@ -1,0 +1,134 @@
+{
+ "run": "no-image",
+ "image_id": "8258",
+ "truth": {
+  "species": "Artic Tern",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "red"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "white"
+   ],
+   "leg colour": [
+    "red"
+   ]
+  },
+  "cub_path": "141.Artic_Tern/Artic_Tern_0073_143486.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "dagger",
+   "truth": [
+    "dagger"
+   ],
+   "correct": true
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "red",
+   "truth": [
+    "red"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "grey",
+   "truth": [
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "red",
+   "truth": [
+    "red"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Common Tern",
+   "truth": "Artic Tern",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "Red dagger bill of head length, white breast, grey wings and red legs fit a Common Tern."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 7/8 attributes correct, no flags."
+}

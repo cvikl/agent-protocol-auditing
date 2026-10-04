@@ -1,0 +1,21 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop after fitting the selected pipeline (best mean 5-fold CV macro accuracy over 3 seeds on data/train) on all 300 training images; no further tuning.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "HOG(cell=8)+HOG(cell=16) on grayscale, 4x4-grid Hellinger RGB color histogram (6^3 bins), 8x8 and 16x16 downsampled RGB",
+    "augmentation": "horizontal flip of training images (2x)",
+    "test_time_augmentation": "average predict_proba of image and its horizontal flip",
+    "scaler": "StandardScaler",
+    "model": "LogisticRegression",
+    "C": "0.1",
+    "max_iter": "3000"
+  }
+}

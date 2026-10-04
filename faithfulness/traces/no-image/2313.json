@@ -1,0 +1,138 @@
+{
+ "run": "no-image",
+ "image_id": "2313",
+ "truth": {
+  "species": "Scissor tailed Flycatcher",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey",
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "041.Scissor_tailed_Flycatcher/Scissor_Tailed_Flycatcher_0085_41830.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "all-purpose"
+   ],
+   "correct": true
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "brown",
+    "grey",
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Tree Swallow",
+   "truth": "Scissor tailed Flycatcher",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "Small all-purpose black bill, dark legs, brown-toned upperparts and clean solid white breast best match a Tree Swallow."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 8/8 attributes correct, no flags."
+}

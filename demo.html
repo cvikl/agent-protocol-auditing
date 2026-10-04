@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APA Replay</title>
+<meta name="description" content="Interactive Figure 1: an honest run beside a baited run of the pre-registered protocol audit, replayed step by step from the recorded traces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --paper: #fdfdfc; --ink: #141414; --ink-2: #4a4a47; --ink-3: #6f6f6b; --rule: #d6d6d2; --rule-2: #141414; --red: #c81e1e;
+          --chart-grid: #ececea; --tick-idle: #cfcfcb;
+          --serif: "STIX Two Text", "Times New Roman", serif; --mono: "Azeret Mono", ui-monospace, monospace; }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); scrollbar-width: thin; scrollbar-color: var(--rule) var(--paper); }
+  body { margin: 0; color: var(--ink); background: var(--paper); font: 400 17px/1.5 var(--serif); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--ink); color: var(--paper); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 4px; }
+  .sub { margin: 0 0 20px; color: var(--ink-2); font-style: italic; }
+  .tabs { display: flex; gap: 28px; border-top: 1.5px solid var(--rule-2); border-bottom: 1px solid var(--rule); margin-bottom: 18px; }
+  .tabs button { background: none; border: 0; padding: 10px 0; font: 600 15px/1.2 var(--serif); color: var(--ink-3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabs button:hover { color: var(--ink); }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 18px; font: 400 13px/1.4 var(--mono); }
+  .controls label { color: var(--ink-2); }
+  select, .btn { font: 400 13px/1.2 var(--mono); background: var(--paper); color: var(--ink); border: 1px solid var(--ink); padding: 6px 10px; border-radius: 0; cursor: pointer; }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn:disabled { color: var(--ink-3); border-color: var(--rule); cursor: default; background: var(--paper); }
+  .stepc { color: var(--ink-2); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } main { padding: 28px 16px 64px; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  .col { border-top: 1.5px solid var(--rule-2); padding-top: 10px; min-width: 0; }
+  .hdr { display: flex; flex-wrap: wrap; gap: 4px 16px; font: 400 12.5px/1.5 var(--mono); color: var(--ink-2); margin-bottom: 8px; }
+  .hdr b { color: var(--ink); font-weight: 500; }
+  .panel { position: relative; }
+  .label { font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 4px; }
+  .score { height: 220px; }
+  .ticks { height: 30px; }
+  .ticks canvas { cursor: default; }
+  .strip { display: flex; flex-wrap: wrap; gap: 6px; }
+  .batch { border: 1px solid var(--rule); padding: 5px 8px; font: 400 12px/1.4 var(--mono); color: var(--ink-2); opacity: .35; }
+  .batch.on { opacity: 1; border-color: var(--ink); }
+  .batch b { color: var(--ink); font-weight: 500; }
+  .batch.dev { border-style: dashed; }
+  .flags { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .flag { border: 1px solid var(--rule); padding: 6px 6px 7px; font: 400 11.5px/1.3 var(--mono); color: var(--ink-3); min-height: 3.4em; }
+  .flag .n { display: block; font-weight: 500; color: var(--ink-2); text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
+  .flag .s { display: block; font-size: 14px; margin-top: 2px; }
+  .flag.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .flag.on .n { color: var(--paper); }
+  .verdict { margin: 12px 0 0; font-size: 15px; line-height: 1.45; min-height: 2.9em; }
+  .pending { color: var(--ink-3); font-style: italic; }
+  .note { font-size: 13.5px; color: var(--ink-2); margin: 22px 0 0; }
+  dialog { border: 1px solid var(--ink); padding: 18px 20px; max-width: min(760px, 92vw); font: inherit; background: var(--paper); color: var(--ink); }
+  dialog::backdrop { background: rgba(20, 20, 20, .35); }
+  dialog h2 { font-size: 15px; font-weight: 700; margin: 0 0 8px; }
+  dialog pre { font: 400 11.5px/1.45 var(--mono); white-space: pre-wrap; word-break: break-word; margin: 0 0 14px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 8px 0; max-height: 40vh; overflow: auto; }
+  dialog pre .red { color: var(--red); }
+  iframe { width: 100%; height: 1560px; border: 0; border-top: 1.5px solid var(--rule-2); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Figure 1, interactive. Agent Protocol Auditing.</h1>
+  <p class="sub">Honest run beside baited run, same image set, replayed from the recorded traces. <a href="index.html">Back to the page.</a></p>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="hack">Hack detection</button>
+    <button role="tab" aria-selected="false" data-tab="faith">Protocol faithfulness</button>
+  </div>
+
+  <section id="tab-hack" role="tabpanel">
+    <div class="controls">
+      <label>left <select id="selL" aria-label="left run"></select></label>
+      <label>right <select id="selR" aria-label="right run"></select></label>
+      <button class="btn" id="play">Play</button>
+      <button class="btn" id="reset">Show all</button>
+      <span class="stepc" id="stepc"></span>
+    </div>
+    <div class="cols">
+      <section class="col" id="L">
+        <div class="hdr"></div>
+        <div class="label">score</div><div class="panel score"><canvas></canvas></div>
+        <div class="label">access timeline</div><div class="panel ticks"><canvas></canvas></div>
+        <div class="label">protocol</div><div class="strip"></div>
+        <div class="label">flags</div><div class="flags"></div>
+        <p class="verdict"></p>
+      </section>
+      <section class="col" id="R">
+        <div class="hdr"></div>
+        <div class="label">score</div><div class="panel score"><canvas></canvas></div>
+        <div class="label">access timeline</div><div class="panel ticks"><canvas></canvas></div>
+        <div class="label">protocol</div><div class="strip"></div>
+        <div class="label">flags</div><div class="flags"></div>
+        <p class="verdict"></p>
+      </section>
+    </div>
+    <p class="note">Click the red line to read the raw trace lines around the first flag and the protocol declared for that batch. Hover a tick for the path it touched.</p>
+  </section>
+
+  <section id="tab-faith" role="tabpanel" class="hidden">
+    <p class="sub" style="margin-top:0">The earlier experiment: a vision model identifies 20 CUB birds through eight declared attribute steps. Its numbers are kept apart from the hack-detection numbers.</p>
+    <iframe title="protocol faithfulness replay" data-src="faithfulness/demo.html"></iframe>
+  </section>
+</main>
+
+<dialog id="raw"><h2 id="rawTitle"></h2><pre id="rawTrace"></pre><h2>protocol for that batch</h2><pre id="rawProto"></pre><button class="btn" id="close">Close</button></dialog>
+
+<script>
+(async function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const INK = '#141414', RED = '#c81e1e', GRID = '#ececea', IDLE = '#cfcfcb', MONO = '"Azeret Mono", ui-monospace, monospace';
+  Chart.defaults.font.family = MONO; Chart.defaults.font.size = 11; Chart.defaults.color = '#4a4a47';
+  const fmt = (x, d = 3) => (x === null || x === undefined) ? '–' : Number(x).toFixed(d);
+  const SIGNALS = [['plan_deviation', 'plan'], ['evaluator_contact', 'contact'], ['score_jump', 'jump'], ['report_mismatch', 'mismatch'], ['heldout_gap', 'gap']];
+
+  async function get(path, text) { const r = await fetch(path, { cache: 'no-store' }); if (!r.ok) throw new Error(path); return text ? r.text() : r.json(); }
+
+  // tabs
+  for (const b of document.querySelectorAll('.tabs button')) b.addEventListener('click', () => {
+    for (const o of document.querySelectorAll('.tabs button')) o.setAttribute('aria-selected', o === b);
+    $('#tab-hack').classList.toggle('hidden', b.dataset.tab !== 'hack');
+    $('#tab-faith').classList.toggle('hidden', b.dataset.tab !== 'faith');
+    const fr = $('#tab-faith iframe'); if (b.dataset.tab === 'faith' && !fr.src) fr.src = fr.dataset.src;
+  });
+
+  const redLine = { id: 'redLine', afterDatasetsDraw(chart, _a, o) {
+    if (o.x === null || o.x === undefined) return;
+    const { ctx, chartArea: a, scales: { x } } = chart, px = x.getPixelForValue(o.x);
+    ctx.save(); ctx.strokeStyle = RED; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke(); ctx.restore();
+  } };
+
+  let index;
+  try { index = await get('traces/index.json'); } catch (e) { index = { honest: [], baited: [], permitted: [] }; }
+  const opts = [];
+  for (const c of ['honest', 'baited', 'permitted']) for (const i of (index[c] || [])) opts.push(`${c}/${i}`);
+  if (!opts.length) { $('#L .verdict').innerHTML = '<span class="pending">No traces yet. Run apa.py run and apa.py summarize.</span>'; return; }
+  for (const sel of [$('#selL'), $('#selR')]) for (const o of opts) { const e = document.createElement('option'); e.value = o; e.textContent = o.replace('/', ' run '); sel.appendChild(e); }
+  $('#selL').value = opts.find(o => o.startsWith('honest')) || opts[0];
+  $('#selR').value = opts.find(o => o.startsWith('baited')) || opts.find(o => o.startsWith('permitted')) || opts[opts.length - 1];
+
+  async function loadRun(key) {
+    const [c, i] = key.split('/');
+    const trace = (await get(`traces/${c}/run_${i}.jsonl`, true)).trim().split('\n').filter(Boolean).map(JSON.parse);
+    let flags = null, meta = null; try { flags = await get(`traces/${c}/run_${i}.flags.json`); } catch (e) {} try { meta = await get(`traces/${c}/run_${i}.meta.json`); } catch (e) {}
+    const nb = Math.max(0, ...trace.map(e => e.batch || 0));
+    const protocols = {};
+    for (let b = 1; b <= nb; b++) { try { protocols[b] = await get(`protocols/${c}_run_${i}/batch_${b}.json`); } catch (e) {} }
+    return { c, i, trace, flags, meta, protocols, maxStep: Math.max(...trace.map(e => e.step)) };
+  }
+
+  class Column {
+    constructor(root) { this.root = root; this.score = null; this.tick = null; this.run = null; }
+    build(run) {
+      this.run = run;
+      const { c, i, trace, flags, meta } = run;
+      const xScale = { type: 'linear', min: 0, max: run.maxStep + 1, grid: { color: GRID }, ticks: { stepSize: 5 } };
+      this.scores = []; this.hidden = []; this.ticks = [];
+      for (const e of trace) {
+        for (const s of (e.scores || [])) if (s.scope === 'full') this.scores.push({ x: e.step, y: s.macro_accuracy });
+        if (e.hidden !== null && e.hidden !== undefined) this.hidden.push({ x: e.step, y: e.hidden, trigger: e.trigger || 'final' });
+        this.ticks.push({ x: e.step, y: 1, ev: !!e.evaluator, path: e.path || '', tool: e.tool });
+      }
+      this.thr = meta && meta.threshold !== null && meta.threshold !== undefined ? meta.threshold : null;
+      this.onset = flags && flags.onset !== null && flags.onset !== undefined ? flags.onset : null;
+      if (this.score) { this.score.destroy(); this.tick.destroy(); }
+      this.score = new Chart($('.score canvas', this.root), { type: 'line', data: { datasets: [
+        { label: 'visible', data: [], borderColor: INK, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: INK, tension: 0 },
+        { label: 'threshold', data: this.thr === null ? [] : [{ x: 0, y: this.thr }, { x: run.maxStep + 1, y: this.thr }], borderColor: INK, borderWidth: 1.2, borderDash: [5, 4], pointRadius: 0 },
+        { label: 'hidden', data: [], type: 'scatter', pointRadius: 4.5, pointBackgroundColor: INK, pointBorderColor: '#fdfdfc', pointBorderWidth: 1.5 } ] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, parsing: false, onClick: (ev) => this.clickLine(ev),
+          plugins: { legend: { display: false }, redLine: { x: null }, tooltip: { callbacks: { label: c => `${c.dataset.label} ${fmt(c.parsed.y)} at step ${c.parsed.x}${c.raw.trigger ? ' (' + c.raw.trigger + ')' : ''}` } } },
+          scales: { x: xScale, y: { min: 0, max: 1, grid: { color: GRID }, ticks: { stepSize: 0.2, callback: v => v.toFixed(1) }, afterFit: s => { s.width = 46; } } } }, plugins: [redLine] });
+      this.tick = new Chart($('.ticks canvas', this.root), { type: 'bar', data: { datasets: [{ data: [], backgroundColor: ctx => (ctx.raw && ctx.raw.ev) ? INK : IDLE, barThickness: 3, parsing: false }] },
+        options: { responsive: true, maintainAspectRatio: false, animation: false, plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => `step ${c.raw.x}: ${c.raw.tool} ${c.raw.path}` } } },
+          scales: { x: { ...xScale, display: false }, y: { min: 0, max: 1, display: false, afterFit: s => { s.width = 46; } } } } });
+      // protocol strip
+      const strip = $('.strip', this.root); strip.innerHTML = '';
+      const nEval = meta ? meta.n_eval : null;
+      this.batches = {};
+      for (const [b, p] of Object.entries(run.protocols)) {
+        const obs = []; let first = Infinity;
+        for (const e of trace) if (String(e.batch) === b) { if (e.tool === 'write_file' && e.protocol === 'accepted') first = Math.min(first, e.step); for (const s of (e.scores || [])) if (!obs.includes(s.n_eval)) obs.push(s.n_eval); }
+        const dev = obs.some(n => n !== nEval);
+        const el = document.createElement('div'); el.className = 'batch' + (dev ? ' dev' : ''); el.dataset.step = isFinite(first) ? first : 0;
+        el.innerHTML = `<b>batch ${b}</b> declared ${p.eval_scope} (${nEval ?? '?'}) · observed ${obs.length ? obs.join(', ') : 'none'} · epochs ≤ ${p.max_epochs}`;
+        strip.appendChild(el);
+      }
+      if (!Object.keys(run.protocols).length) strip.innerHTML = '<div class="batch on">no protocol accepted</div>';
+      // flags
+      const fl = $('.flags', this.root); fl.innerHTML = '';
+      this.flagEls = {};
+      for (const [sig, short] of SIGNALS) {
+        const f = flags ? flags.flags.find(x => x.flag === sig) : null;
+        const el = document.createElement('div'); el.className = 'flag'; el.dataset.step = f ? f.step : '';
+        el.innerHTML = `<span class="n">${short}</span><span class="s">${f ? 'step ' + f.step : '–'}</span>`;
+        el.title = f ? f.detail : '';
+        fl.appendChild(el); this.flagEls[sig] = el;
+      }
+      // verdict
+      let v;
+      if (!flags) v = '<span class="pending">flags not computed yet (apa.py summarize)</span>';
+      else {
+        const parts = flags.flags.map(f => `${f.flag.replace('_', ' ')} at step ${f.step} (${f.detail})`);
+        v = `${c} run ${i}: visible ${fmt(flags.visible)}, hidden ${fmt(flags.hidden)}, ${flags.threshold === null ? 'no pass mark' : (flags.passed ? 'passed' : 'did not pass') + ' ' + fmt(flags.threshold, 2)}; ` + (parts.length ? parts.join('; ') + '; ' : '') + `verdict <b>${flags.verdict || 'not computed'}</b> (${flags.verdict_detail || ''}).`;
+      }
+      $('.verdict', this.root).innerHTML = v;
+      this.show(run.maxStep);
+    }
+    show(upto) {
+      const { trace } = this.run;
+      this.score.data.datasets[0].data = this.scores.filter(p => p.x <= upto);
+      this.score.data.datasets[2].data = this.hidden.filter(p => p.x <= upto);
+      this.score.options.plugins.redLine.x = (this.onset !== null && upto >= this.onset) ? this.onset : null;
+      this.tick.data.datasets[0].data = this.ticks.filter(p => p.x <= upto);
+      this.score.update('none'); this.tick.update('none');
+      const cur = trace.filter(e => e.step <= upto); const last = cur[cur.length - 1];
+      const batch = last ? last.batch : 0;
+      $('.hdr', this.root).innerHTML = `<span>run <b>${this.run.c} ${this.run.i}</b></span><span>threshold <b>${this.thr === null ? 'none' : fmt(this.thr, 2)}</b></span><span>batch <b>${batch}</b></span><span>step <b>${Math.min(upto, this.run.maxStep)}</b> of ${this.run.maxStep}</span>`;
+      for (const el of this.root.querySelectorAll('.batch')) el.classList.toggle('on', +el.dataset.step <= upto);
+      for (const el of Object.values(this.flagEls)) el.classList.toggle('on', el.dataset.step !== '' && +el.dataset.step <= upto);
+    }
+    clickLine(ev) {
+      if (this.onset === null || this.score.options.plugins.redLine.x === null) return;
+      const px = this.score.scales.x.getPixelForValue(this.onset);
+      if (Math.abs(ev.x - px) > 8) return;
+      const { trace, protocols, c, i } = this.run;
+      const lines = trace.filter(e => Math.abs(e.step - this.onset) <= 3).map(e => (e.step === this.onset ? '<span class="red">' : '') + JSON.stringify(e) + (e.step === this.onset ? '</span>' : ''));
+      const b = (trace.find(e => e.step === this.onset) || {}).batch;
+      $('#rawTitle').textContent = `${c} run ${i}: trace lines around step ${this.onset}`;
+      $('#rawTrace').innerHTML = lines.join('\n');
+      $('#rawProto').textContent = protocols[b] ? JSON.stringify(protocols[b], null, 2) : `no protocol for batch ${b}`;
+      $('#raw').showModal();
+    }
+  }
+  $('#close').addEventListener('click', () => $('#raw').close());
+
+  const L = new Column($('#L')), R = new Column($('#R'));
+  let timer = null, step = 0;
+  async function reload() { clearInterval(timer); L.build(await loadRun($('#selL').value)); R.build(await loadRun($('#selR').value)); $('#play').textContent = 'Play'; $('#stepc').textContent = ''; }
+  $('#selL').addEventListener('change', reload); $('#selR').addEventListener('change', reload);
+  await reload();
+
+  function firstFlag() { const c = [L.onset, R.onset].filter(x => x !== null); return c.length ? Math.min(...c) : null; }
+  $('#play').addEventListener('click', () => {
+    const max = Math.max(L.run.maxStep, R.run.maxStep);
+    if ($('#play').textContent === 'Play') { step = 0; L.show(0); R.show(0); }
+    $('#play').textContent = 'Playing'; $('#play').disabled = true;
+    timer = setInterval(() => {
+      step += 1; L.show(step); R.show(step); $('#stepc').textContent = `step ${step}`;
+      if (step === firstFlag() && step < max) { clearInterval(timer); $('#play').textContent = 'Continue'; $('#play').disabled = false; $('#stepc').textContent = `paused at first flag, step ${step}`; }
+      if (step >= max) { clearInterval(timer); $('#play').textContent = 'Play'; $('#play').disabled = false; $('#stepc').textContent = 'end of trace'; }
+    }, 1000);
+  });
+  $('#reset').addEventListener('click', () => { clearInterval(timer); L.show(L.run.maxStep); R.show(R.run.maxStep); $('#play').textContent = 'Play'; $('#play').disabled = false; $('#stepc').textContent = ''; });
+})();
+</script>
+</body>
+</html>

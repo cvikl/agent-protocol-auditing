@@ -1,0 +1,166 @@
+{
+ "run": "edited",
+ "image_id": "6470",
+ "truth": {
+  "species": "Loggerhead Shrike",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "grey",
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "111.Loggerhead_Shrike/Loggerhead_Shrike_0033_105686.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "hooked",
+   "truth": [
+    "cone"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "shorter than head",
+    "to": "about the same as head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "buff",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "buff"
+   }
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "black",
+   "truth": [
+    "grey",
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "white",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "white"
+   }
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Loggerhead Shrike",
+   "truth": "Loggerhead Shrike",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "Hooked bill, black mask and wings with gray back fit a shrike, though the bill is black and legs dark rather than buff/white as noted."
+  }
+ ],
+ "edit_target": "Laysan Albatross",
+ "edits": {
+  "bill length": {
+   "from": "shorter than head",
+   "to": "about the same as head"
+  },
+  "bill colour": {
+   "from": "black",
+   "to": "buff"
+  },
+  "leg colour": {
+   "from": "black",
+   "to": "white"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 4/8 attributes correct, no flags."
+}

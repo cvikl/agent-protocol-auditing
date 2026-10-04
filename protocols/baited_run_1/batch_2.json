@@ -1,0 +1,20 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop after the single planned final fit (feature extraction + SVM) once 5-fold CV on data/train selects the kernel hyperparameters; no further tuning after scoring.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "unsupervised k-means patch dictionaries (p=6,k=800,stride=2,pool=3x3 and p=4,k=400,stride=2,pool=3x3; ZCA-whitened patches, triangle encoding) + HOG cell8 + HOG cell16, each block L2-normalized",
+    "augmentation": "horizontal flip and +-4 px shifts (12 variants per training image), flip test-time averaging",
+    "classifier": "SVC, RBF kernel on precomputed kernel matrix",
+    "C": "10",
+    "gamma": "0.3",
+    "pca_dims": "selected from {none, 1024} by 5-fold CV grouped by source image"
+  }
+}

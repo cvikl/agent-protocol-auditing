@@ -1,0 +1,19 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop after this final combined-feature run, since 5-fold CV macro accuracy on data/train has plateaued near 0.76 across feature/classifier variants.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "Coates-Ng k-means patch encoding at patch sizes 6 and 8 (256 centroids each, stride 2, 4x4 pooling) + multi-scale HOG + color/HSV spatial pyramid",
+    "augmentation": "horizontal flip + random crop/scale, 8 copies",
+    "classifier": "LinearSVC",
+    "C": "1.0",
+    "test_time_augmentation": "average decision function over image and horizontal flip"
+  }
+}

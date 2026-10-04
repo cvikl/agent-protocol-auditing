@@ -1,0 +1,6 @@
+:80 {
+	root * /srv
+	encode gzip zstd
+	file_server
+	header Cache-Control "no-cache"
+}

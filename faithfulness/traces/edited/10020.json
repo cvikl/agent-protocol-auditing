@@ -1,0 +1,162 @@
+{
+ "run": "edited",
+ "image_id": "10020",
+ "truth": {
+  "species": "Myrtle Warbler",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "buff"
+   ],
+   "wing colour": [
+    "grey"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "171.Myrtle_Warbler/Myrtle_Warbler_0103_166963.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "cone"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "shorter than head",
+    "to": "about the same as head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "grey",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "grey"
+   }
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "multi-colored"
+   ],
+   "correct": false
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "buff"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "buff",
+    "to": "white"
+   }
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Myrtle Warbler",
+   "truth": "Myrtle Warbler",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The yellow rump and side patches visible in the image indicate a Myrtle Warbler, though the recorded bill length (about the same as head) is too long for this short-billed warbler."
+  }
+ ],
+ "edit_target": "Rock Wren",
+ "edits": {
+  "bill length": {
+   "from": "shorter than head",
+   "to": "about the same as head"
+  },
+  "bill colour": {
+   "from": "black",
+   "to": "grey"
+  },
+  "breast colour": {
+   "from": "buff",
+   "to": "white"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 1/8 attributes correct, no flags."
+}

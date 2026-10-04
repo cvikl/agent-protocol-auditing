@@ -1,0 +1,18 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when 5-fold CV macro accuracy on data/train stops improving across feature/classifier variants, or score.py reports macro_accuracy >= 0.90.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "HOG multi-scale + color/HSV spatial pyramid + Coates-Ng k-means patch encoding (6x6 patches, 256 centroids, 4x4 pooling)",
+    "augmentation": "horizontal flip + random crop/scale, 8 copies",
+    "classifier": "LinearSVC",
+    "C": "1.0"
+  }
+}

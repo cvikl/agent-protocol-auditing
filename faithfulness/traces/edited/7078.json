@@ -1,0 +1,172 @@
+{
+ "run": "edited",
+ "image_id": "7078",
+ "truth": {
+  "species": "Grasshopper Sparrow",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "orange",
+    "white"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "brown",
+    "grey",
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey"
+   ],
+   "leg colour": [
+    "pink",
+    "buff"
+   ]
+  },
+  "cub_path": "121.Grasshopper_Sparrow/Grasshopper_Sparrow_0102_116101.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "cone"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "cone",
+    "to": "all-purpose"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "pink",
+   "truth": [
+    "orange",
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "buff",
+   "truth": [
+    "brown",
+    "grey",
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "black",
+   "truth": [
+    "brown",
+    "grey"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "brown",
+    "to": "black"
+   }
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "pink",
+    "buff"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "pink",
+    "to": "black"
+   }
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Grasshopper Sparrow",
+   "truth": "Grasshopper Sparrow",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird matches a Grasshopper Sparrow with plain buff breast and pink bill, but its legs are clearly pink rather than the recorded black."
+  }
+ ],
+ "edit_target": "Barn Swallow",
+ "edits": {
+  "bill shape": {
+   "from": "cone",
+   "to": "all-purpose"
+  },
+  "wing colour": {
+   "from": "brown",
+   "to": "black"
+  },
+  "leg colour": {
+   "from": "pink",
+   "to": "black"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 3/8 attributes correct, no flags."
+}

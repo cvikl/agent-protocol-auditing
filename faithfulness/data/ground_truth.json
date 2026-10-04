@@ -1,0 +1,628 @@
+{
+ "31": {
+  "species": "Black footed Albatross",
+  "attributes": {
+   "bill shape": [
+    "hooked seabird"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "grey"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "grey"
+   ],
+   "wing colour": [
+    "grey"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "001.Black_footed_Albatross/Black_Footed_Albatross_0047_796064.jpg"
+ },
+ "591": {
+  "species": "Rusty Blackbird",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "grey",
+    "black"
+   ],
+   "eye colour": [
+    "black",
+    "white"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "brown"
+   ],
+   "wing colour": [
+    "brown",
+    "black",
+    "buff"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "011.Rusty_Blackbird/Rusty_Blackbird_0009_6853.jpg"
+ },
+ "1140": {
+  "species": "Eastern Towhee",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "black"
+   ],
+   "wing colour": [
+    "orange",
+    "black"
+   ],
+   "leg colour": [
+    "brown",
+    "buff"
+   ]
+  },
+  "cub_path": "021.Eastern_Towhee/Eastern_Towhee_0021_22152.jpg"
+ },
+ "1708": {
+  "species": "Black billed Cuckoo",
+  "attributes": {
+   "bill shape": [
+    "curved (up or down)"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "yellow"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "brown"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "031.Black_billed_Cuckoo/Black_Billed_Cuckoo_0076_26177.jpg"
+ },
+ "2313": {
+  "species": "Scissor tailed Flycatcher",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey",
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "041.Scissor_tailed_Flycatcher/Scissor_Tailed_Flycatcher_0085_41830.jpg"
+ },
+ "2937": {
+  "species": "Horned Grebe",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "longer than head"
+   ],
+   "bill colour": [
+    "red"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "spotted"
+   ],
+   "breast colour": [
+    "buff"
+   ],
+   "wing colour": [
+    "brown"
+   ],
+   "leg colour": [
+    "pink"
+   ]
+  },
+  "cub_path": "051.Horned_Grebe/Horned_Grebe_0088_35023.jpg"
+ },
+ "3518": {
+  "species": "Heermann Gull",
+  "attributes": {
+   "bill shape": [
+    "hooked seabird"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "red"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "061.Heermann_Gull/Heermann_Gull_0142_45798.jpg"
+ },
+ "4128": {
+  "species": "Long tailed Jaeger",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "071.Long_tailed_Jaeger/Long_Tailed_Jaeger_0046_797103.jpg"
+ },
+ "4726": {
+  "species": "Pied Kingfisher",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "black",
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "081.Pied_Kingfisher/Pied_Kingfisher_0011_72143.jpg"
+ },
+ "5290": {
+  "species": "Mockingbird",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "grey"
+   ],
+   "wing colour": [
+    "grey",
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "091.Mockingbird/Mockingbird_0027_80980.jpg"
+ },
+ "5906": {
+  "species": "White Pelican",
+  "attributes": {
+   "bill shape": [
+    "spatulate"
+   ],
+   "bill length": [
+    "longer than head"
+   ],
+   "bill colour": [
+    "pink"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "white"
+   ]
+  },
+  "cub_path": "101.White_Pelican/White_Pelican_0028_95950.jpg"
+ },
+ "6470": {
+  "species": "Loggerhead Shrike",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "grey",
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "111.Loggerhead_Shrike/Loggerhead_Shrike_0033_105686.jpg"
+ },
+ "7078": {
+  "species": "Grasshopper Sparrow",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "orange",
+    "white"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "brown",
+    "grey",
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey"
+   ],
+   "leg colour": [
+    "pink",
+    "buff"
+   ]
+  },
+  "cub_path": "121.Grasshopper_Sparrow/Grasshopper_Sparrow_0102_116101.jpg"
+ },
+ "7643": {
+  "species": "Vesper Sparrow",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "buff"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "spotted"
+   ],
+   "breast colour": [
+    "iridescent"
+   ],
+   "wing colour": [
+    "brown"
+   ],
+   "leg colour": [
+    "brown"
+   ]
+  },
+  "cub_path": "131.Vesper_Sparrow/Vesper_Sparrow_0029_125498.jpg"
+ },
+ "8258": {
+  "species": "Artic Tern",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "red"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "white"
+   ],
+   "leg colour": [
+    "red"
+   ]
+  },
+  "cub_path": "141.Artic_Tern/Artic_Tern_0073_143486.jpg"
+ },
+ "8830": {
+  "species": "Black capped Vireo",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "grey",
+    "black"
+   ],
+   "eye colour": [
+    "orange",
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "yellow",
+    "black"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "151.Black_capped_Vireo/Black_Capped_Vireo_0041_797452.jpg"
+ },
+ "9445": {
+  "species": "Blue winged Warbler",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "yellow"
+   ],
+   "wing colour": [
+    "grey",
+    "yellow",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "161.Blue_winged_Warbler/Blue_Winged_Warbler_0079_161909.jpg"
+ },
+ "10020": {
+  "species": "Myrtle Warbler",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "buff"
+   ],
+   "wing colour": [
+    "grey"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "171.Myrtle_Warbler/Myrtle_Warbler_0103_166963.jpg"
+ },
+ "10660": {
+  "species": "Worm eating Warbler",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "yellow"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "yellow"
+   ],
+   "wing colour": [
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "181.Worm_eating_Warbler/Worm_Eating_Warbler_0049_795561.jpg"
+ },
+ "11198": {
+  "species": "Red headed Woodpecker",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "191.Red_headed_Woodpecker/Red_Headed_Woodpecker_0066_183322.jpg"
+ }
+}

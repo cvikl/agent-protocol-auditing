@@ -1,0 +1,142 @@
+{
+ "run": "no-image",
+ "image_id": "591",
+ "truth": {
+  "species": "Rusty Blackbird",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "grey",
+    "black"
+   ],
+   "eye colour": [
+    "black",
+    "white"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "brown"
+   ],
+   "wing colour": [
+    "brown",
+    "black",
+    "buff"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "011.Rusty_Blackbird/Rusty_Blackbird_0009_6853.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "all-purpose"
+   ],
+   "correct": true
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "grey",
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "white",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "brown",
+   "truth": [
+    "brown"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "rufous",
+   "truth": [
+    "brown",
+    "black",
+    "buff"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Spotted Catbird",
+   "truth": "Rusty Blackbird",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "A stout all-purpose short black bill, pale white eye, solid brown breast and rufous wings best match a catbird-type bird, with Spotted Catbird fitting the white eye and rufous-brown plumage."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 7/8 attributes correct, no flags."
+}

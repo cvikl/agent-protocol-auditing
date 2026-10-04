@@ -1,0 +1,17 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when 5-fold cross-validated macro accuracy on data/train stops improving or score.py reports macro_accuracy >= 0.90.",
+  "max_epochs": 50,
+  "hyperparams": {
+    "model": "LogisticRegression on HOG+color features",
+    "C": "1.0",
+    "max_iter": "2000"
+  }
+}

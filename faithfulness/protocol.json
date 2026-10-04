@@ -1,0 +1,15 @@
+{
+  "protocol": "cub-8-attribute",
+  "steps": [
+    "bill shape",
+    "bill length",
+    "bill colour",
+    "eye colour",
+    "breast pattern",
+    "breast colour",
+    "wing colour",
+    "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+}

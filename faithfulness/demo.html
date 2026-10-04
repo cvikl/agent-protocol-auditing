@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protocol Faithfulness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --paper: #fdfdfc; --ink: #141414; --ink-2: #4a4a47; --ink-3: #6f6f6b; --rule: #d6d6d2; --rule-2: #141414; --red: #c81e1e; --chart-grid: #ececea; --tick-idle: #cfcfcb; --serif: "STIX Two Text", "Times New Roman", serif; --mono: "Azeret Mono", ui-monospace, monospace; }
+  * { box-sizing: border-box; }
+  html { scrollbar-width: thin; scrollbar-color: var(--rule) var(--paper); }
+  ::selection { background: var(--ink); color: var(--paper); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  body { margin: 0; padding: 16px; background: var(--paper); color: var(--ink);
+         font: 400 17px/1.5 var(--serif); -webkit-font-smoothing: antialiased; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+  header .proto { color: var(--ink-2); font-style: italic; }
+  select, button { font: 400 13px/1.2 var(--mono); background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+                   padding: 4px 10px; border-radius: 0; cursor: pointer; }
+  button:disabled { color: var(--ink-3); border-color: var(--rule); cursor: default; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+  .col h2 { font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; }
+  .col img { width: 100%; max-height: 300px; object-fit: contain; background: var(--chart-grid); border: 1px solid var(--rule); display: block; }
+  .steps { margin: 12px 0 0; padding: 0; list-style: none; min-height: 9em; }
+  .steps li { display: grid; grid-template-columns: 2.5ch 16ch 1fr 2ch; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--rule);
+              cursor: pointer; opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; }
+  .steps li.shown { opacity: 1; transform: none; }
+  .steps li:hover { background: var(--chart-grid); }
+  .steps li .num { color: var(--ink-2); font: 400 12.5px/1.6 var(--mono); }
+  .steps li .field { color: var(--ink-2); font: 400 12.5px/1.6 var(--mono); }
+  .steps li .mark { text-align: right; }
+  .steps li s { color: var(--ink-2); }
+  .steps li .outcome { display: inline-block; margin-left: 8px; padding: 0 6px; border: 1px solid var(--ink); font: 400 11.5px/1.5 var(--mono); }
+  .steps li .truth { color: var(--ink-2); font-size: 12px; margin-left: 8px; }
+  .rule { height: 0; border: 0; border-top: 2px solid var(--red); margin: 0; opacity: 0; transition: opacity .25s; }
+  .rule.shown { opacity: 1; }
+  .flags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .flag { border: 1px solid var(--rule); padding: 6px 8px; color: var(--ink-3); min-height: 4.6em; }
+  .flag .name { font: 500 11px/1.2 var(--mono); text-transform: uppercase; letter-spacing: .05em; }
+  .flag .detail { font: 400 12px/1.4 var(--mono); margin-top: 4px; display: none; }
+  .flag.on { border-color: var(--ink); color: var(--paper); background: var(--ink); }
+  .flag.on .detail { display: block; }
+  .verdict { margin-top: 10px; min-height: 1.5em; }
+  .summary { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--ink); }
+  .summary p { margin: 0 0 8px; color: var(--ink); font: 400 12.5px/1.5 var(--mono); }
+  .summary canvas { max-height: 160px; }
+  dialog { border: 1px solid var(--ink); padding: 16px; max-width: min(640px, 90vw); font: inherit; }
+  dialog pre { margin: 0 0 12px; white-space: pre-wrap; word-break: break-word; font: 400 12px/1.45 var(--mono); }
+  dialog::backdrop { background: rgba(20, 20, 20, .35); }
+  .muted { color: var(--ink-2); }
+</style>
+</head>
+<body>
+<header>
+  <span class="proto" id="proto"></span>
+  <select id="pick" aria-label="image"></select>
+  <button id="play">Play</button>
+  <button id="reset">Reset</button>
+</header>
+
+<div class="cols">
+  <section class="col" id="left">
+    <h2>honest</h2>
+    <ol class="steps"></ol>
+    <div class="flags">
+      <div class="flag" data-k="plan"><div class="name">plan</div><div class="detail"></div></div>
+      <div class="flag" data-k="mismatch"><div class="name">mismatch</div><div class="detail"></div></div>
+      <div class="flag" data-k="gap"><div class="name">gap</div><div class="detail"></div></div>
+    </div>
+    <div class="verdict"></div>
+  </section>
+  <section class="col" id="right">
+    <h2>edited</h2>
+    <ol class="steps"></ol>
+    <div class="flags">
+      <div class="flag" data-k="plan"><div class="name">plan</div><div class="detail"></div></div>
+      <div class="flag" data-k="mismatch"><div class="name">mismatch</div><div class="detail"></div></div>
+      <div class="flag" data-k="gap"><div class="name">gap</div><div class="detail"></div></div>
+    </div>
+    <div class="verdict"></div>
+  </section>
+</div>
+
+<div class="summary">
+  <p id="sumline" class="muted">summary.json not found</p>
+  <canvas id="chart" height="160"></canvas>
+</div>
+
+<dialog id="raw"><pre></pre><button id="close">Close</button></dialog>
+
+<script>
+(async function () {
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const cols = { left: $('#left'), right: $('#right') };
+  let traces = { honest: null, edited: null, noimage: null };
+  let timer = null;
+
+  async function getJSON(path) {
+    const r = await fetch(path, { cache: 'no-store' });
+    if (!r.ok) throw new Error(path + ' ' + r.status);
+    return r.json();
+  }
+
+  const protocol = await getJSON('protocol.json');
+  $('#proto').textContent = protocol.protocol + ' · ' + protocol.rule;
+
+  const index = await getJSON('traces/index.json').catch(() => []);
+  const pick = $('#pick');
+  for (const it of index) {
+    const o = document.createElement('option');
+    o.value = it.image_id;
+    o.textContent = it.image_id + ' · ' + it.species;
+    pick.appendChild(o);
+  }
+
+  function gapForImage() {
+    if (!traces.honest || !traces.noimage) return null;
+    const h = traces.honest.steps.find(s => s.field === 'species');
+    const n = traces.noimage.steps.find(s => s.field === 'species');
+    return { on: h.correct && !n.correct, detail: `with image ${h.correct ? '✓' : '✗'} (${h.answer}), notes only ${n.correct ? '✓' : '✗'} (${n.answer})` };
+  }
+
+  function renderColumn(col, trace, isEdited) {
+    let img = $('img', col);
+    if (!img) { img = document.createElement('img'); col.insertBefore(img, $('.steps', col)); }
+    img.src = 'data/images/' + trace.image_id + '.jpg';
+    img.alt = trace.image_id;
+    const list = $('.steps', col);
+    list.innerHTML = '';
+    const firstFlagStep = trace.flags.length ? Math.min(...trace.flags.map(f => f.step)) : null;
+    for (const s of trace.steps) {
+      const li = document.createElement('li');
+      li.dataset.step = s.step;
+      let ans = s.answer;
+      if (s.edited) ans = `<s>${s.edited.from}</s> ${s.edited.to}`;
+      if (s.field === 'species' && isEdited) ans += `<span class="outcome">${trace.edit_outcome}</span>`;
+      const truth = Array.isArray(s.truth) ? s.truth.join(' / ') : s.truth;
+      li.innerHTML = `<span class="num">${s.step}</span><span class="field">${s.field}</span>` +
+        `<span>${ans}${s.correct ? '' : `<span class="truth">truth: ${truth}</span>`}</span>` +
+        `<span class="mark">${s.correct ? '✓' : '✗'}</span>`;
+      li.addEventListener('click', () => { $('#raw pre').textContent = JSON.stringify(s, null, 2); $('#raw').showModal(); });
+      list.appendChild(li);
+      if (firstFlagStep === s.step) {
+        const hr = document.createElement('hr');
+        hr.className = 'rule';
+        hr.dataset.step = s.step;
+        list.appendChild(hr);
+      }
+    }
+    const byK = {
+      plan: trace.flags.find(f => f.signal === 'plan deviation'),
+      mismatch: trace.flags.find(f => f.signal === 'report-trace mismatch'),
+    };
+    const gap = gapForImage();
+    for (const box of col.querySelectorAll('.flag')) {
+      const k = box.dataset.k;
+      let on = false, detail = '';
+      if (k === 'gap' && gap) { on = gap.on; detail = gap.detail; }
+      else if (byK[k]) { on = true; detail = `step ${byK[k].step}: ${byK[k].detail}`; }
+      box.classList.toggle('on', on);
+      $('.detail', box).textContent = detail;
+    }
+    $('.verdict', col).textContent = trace.verdict;
+  }
+
+  function reveal(step) {
+    for (const col of Object.values(cols)) {
+      for (const el of col.querySelectorAll('[data-step]')) {
+        if (+el.dataset.step <= step) el.classList.add('shown');
+      }
+    }
+  }
+  function revealAll() { reveal(99); }
+  function hideAll() {
+    for (const el of document.querySelectorAll('.steps [data-step]')) el.classList.remove('shown');
+  }
+
+  async function load(id) {
+    clearInterval(timer);
+    const [h, e, n] = await Promise.all([
+      getJSON(`traces/honest/${id}.json`),
+      getJSON(`traces/edited/${id}.json`).catch(() => null),
+      getJSON(`traces/no-image/${id}.json`).catch(() => null),
+    ]);
+    traces = { honest: h, edited: e, noimage: n };
+    renderColumn(cols.left, h, false);
+    if (e) renderColumn(cols.right, e, true);
+    else { $('.steps', cols.right).innerHTML = ''; $('.verdict', cols.right).textContent = 'no edited trace for this image'; }
+    hideAll();
+    $('#play').disabled = false;
+  }
+
+  $('#play').addEventListener('click', () => {
+    clearInterval(timer);
+    hideAll();
+    let step = 0;
+    $('#play').disabled = true;
+    timer = setInterval(() => {
+      step += 1;
+      reveal(step);
+      if (step >= 9) { clearInterval(timer); $('#play').disabled = false; }
+    }, 1000);
+  });
+  $('#reset').addEventListener('click', () => { clearInterval(timer); revealAll(); $('#play').disabled = false; });
+  $('#close').addEventListener('click', () => $('#raw').close());
+  pick.addEventListener('change', () => load(pick.value));
+
+  // optional deep link: #<image_id> picks an image, #all or #<image_id>,all reveals every step
+  const hash = decodeURIComponent(location.hash.slice(1)).split(',');
+  const wanted = index.find(it => it.image_id === hash[0]);
+  if (index.length) {
+    if (wanted) pick.value = wanted.image_id;
+    await load(pick.value || index[0].image_id);
+    if (hash.includes('all')) revealAll();
+  }
+
+  // summary line and chart
+  try {
+    const s = await getJSON('summary.json');
+    const ci = x => `${x.value} [${x.ci[0]}, ${x.ci[1]}]`;
+    const eo = s.edit_outcomes;
+    $('#sumline').classList.remove('muted');
+    $('#sumline').textContent =
+      `n ${s.n} · honest accuracy ${ci(s.honest_accuracy)} · dissociation rate ${ci(s.dissociation_rate)}` +
+      ` · edit outcome followed ${eo.followed_edit.count} / ignored ${eo.ignored_edit.count} / flagged ${eo.flagged.count}` +
+      ` · no-image gap ${ci(s.no_image_gap)}`;
+    const rows = [
+      ['honest accuracy', s.honest_accuracy],
+      ['no-image accuracy', s.no_image_accuracy],
+      ['dissociation rate', s.dissociation_rate],
+      ['edit ignored rate', eo.ignored_edit],
+      ['edit followed rate', eo.followed_edit],
+      ['edit flagged rate', eo.flagged],
+    ];
+    new Chart($('#chart'), {
+      type: 'bar',
+      data: {
+        labels: rows.map(r => r[0]),
+        datasets: [
+          { label: '95% CI', data: rows.map(r => [r[1].ci[0], r[1].ci[1]]), backgroundColor: '#cfcfcb', grouped: false, barPercentage: 0.9 },
+          { label: 'value', data: rows.map(r => r[1].value), backgroundColor: '#141414', grouped: false, barPercentage: 0.35 },
+        ],
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + JSON.stringify(c.raw) } } },
+        scales: {
+          x: { min: 0, max: 1, grid: { color: '#ececea' }, ticks: { color: '#4a4a47', font: { family: '"Azeret Mono", ui-monospace, monospace' } } },
+          y: { grid: { display: false }, ticks: { color: '#141414', font: { family: '"Azeret Mono", ui-monospace, monospace' } } },
+        },
+      },
+    });
+  } catch (e) { /* summary.json absent until the script has run */ }
+})();
+</script>
+</body>
+</html>

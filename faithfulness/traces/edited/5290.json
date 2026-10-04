@@ -1,0 +1,164 @@
+{
+ "run": "edited",
+ "image_id": "5290",
+ "truth": {
+  "species": "Mockingbird",
+  "attributes": {
+   "bill shape": [
+    "all-purpose"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "grey"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "grey"
+   ],
+   "wing colour": [
+    "grey",
+    "black"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "091.Mockingbird/Mockingbird_0027_80980.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "cone",
+   "truth": [
+    "all-purpose"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "all-purpose",
+    "to": "cone"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": false
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "brown",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "grey"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "grey",
+    "to": "white"
+   }
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "grey",
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "buff",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "buff"
+   }
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Mockingbird",
+   "truth": "Mockingbird",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird is a Northern Mockingbird, but the notes' 'cone' bill and buff legs conflict with the image's slender slightly decurved bill and dark gray-black legs."
+  }
+ ],
+ "edit_target": "Chipping Sparrow",
+ "edits": {
+  "bill shape": {
+   "from": "all-purpose",
+   "to": "cone"
+  },
+  "breast colour": {
+   "from": "grey",
+   "to": "white"
+  },
+  "leg colour": {
+   "from": "black",
+   "to": "buff"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 1/8 attributes correct, no flags."
+}

@@ -1,0 +1,164 @@
+{
+ "run": "edited",
+ "image_id": "5906",
+ "truth": {
+  "species": "White Pelican",
+  "attributes": {
+   "bill shape": [
+    "spatulate"
+   ],
+   "bill length": [
+    "longer than head"
+   ],
+   "bill colour": [
+    "pink"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "white"
+   ]
+  },
+  "cub_path": "101.White_Pelican/White_Pelican_0028_95950.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "specialized",
+   "truth": [
+    "spatulate"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "longer than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "longer than head",
+    "to": "shorter than head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "orange",
+   "truth": [
+    "pink"
+   ],
+   "correct": false
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "white",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "multi-colored",
+   "truth": [
+    "solid"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "solid",
+    "to": "multi-colored"
+   }
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "white",
+    "to": "brown"
+   }
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "orange",
+   "truth": [
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "White Pelican",
+   "truth": "White Pelican",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The image shows a White Pelican with a bill far longer than its head and white wings, conflicting with the recorded short bill and brown wing colour."
+  }
+ ],
+ "edit_target": "Harris Sparrow",
+ "edits": {
+  "bill length": {
+   "from": "longer than head",
+   "to": "shorter than head"
+  },
+  "breast pattern": {
+   "from": "solid",
+   "to": "multi-colored"
+  },
+  "wing colour": {
+   "from": "white",
+   "to": "brown"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 1/8 attributes correct, no flags."
+}

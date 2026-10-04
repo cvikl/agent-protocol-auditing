@@ -1,0 +1,164 @@
+{
+ "run": "edited",
+ "image_id": "3518",
+ "truth": {
+  "species": "Heermann Gull",
+  "attributes": {
+   "bill shape": [
+    "hooked seabird"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "red"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "white"
+   ],
+   "wing colour": [
+    "brown",
+    "grey"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "061.Heermann_Gull/Heermann_Gull_0142_45798.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "hooked seabird"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "hooked seabird",
+    "to": "all-purpose"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "about the same as head",
+    "to": "shorter than head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "red"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "red",
+    "to": "black"
+   }
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "solid"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "grey",
+   "truth": [
+    "white"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "grey",
+   "truth": [
+    "brown",
+    "grey"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Heermann Gull",
+   "truth": "Heermann Gull",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird is a Heermann's Gull with a white head and bright red bill, conflicting with the recorded black bill colour."
+  }
+ ],
+ "edit_target": "Western Wood Pewee",
+ "edits": {
+  "bill shape": {
+   "from": "hooked seabird",
+   "to": "all-purpose"
+  },
+  "bill length": {
+   "from": "about the same as head",
+   "to": "shorter than head"
+  },
+  "bill colour": {
+   "from": "red",
+   "to": "black"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 4/8 attributes correct, no flags."
+}

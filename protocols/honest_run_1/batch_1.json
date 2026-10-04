@@ -1,0 +1,18 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop after comparing a small fixed set of feature+classifier configurations by 5-fold cross-validation on data/train, then fit the best on all training data once.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "model": "Pipeline(feature_extractor -> StandardScaler -> LinearSVC/LogisticRegression)",
+    "cv_folds": "5",
+    "C": "1.0",
+    "random_state": "0"
+  }
+}

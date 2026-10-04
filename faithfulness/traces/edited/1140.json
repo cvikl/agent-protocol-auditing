@@ -1,0 +1,166 @@
+{
+ "run": "edited",
+ "image_id": "1140",
+ "truth": {
+  "species": "Eastern Towhee",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "solid"
+   ],
+   "breast colour": [
+    "black"
+   ],
+   "wing colour": [
+    "orange",
+    "black"
+   ],
+   "leg colour": [
+    "brown",
+    "buff"
+   ]
+  },
+  "cub_path": "021.Eastern_Towhee/Eastern_Towhee_0021_22152.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "hooked seabird",
+   "truth": [
+    "cone"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "cone",
+    "to": "hooked seabird"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "about the same as head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "shorter than head",
+    "to": "about the same as head"
+   }
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "yellow",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "multi-colored",
+   "truth": [
+    "solid"
+   ],
+   "correct": false
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "black"
+   ],
+   "correct": false
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "white",
+   "truth": [
+    "orange",
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "white"
+   }
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "pink",
+   "truth": [
+    "brown",
+    "buff"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Eastern Towhee",
+   "truth": "Eastern Towhee",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The bird is clearly an Eastern Towhee with a short conical bill, not the recorded hooked seabird bill, though the black head, yellow eye, rufous flanks and white breast match."
+  }
+ ],
+ "edit_target": "Slaty backed Gull",
+ "edits": {
+  "bill shape": {
+   "from": "cone",
+   "to": "hooked seabird"
+  },
+  "bill length": {
+   "from": "shorter than head",
+   "to": "about the same as head"
+  },
+  "wing colour": {
+   "from": "black",
+   "to": "white"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 1/8 attributes correct, no flags."
+}

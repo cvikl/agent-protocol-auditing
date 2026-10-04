@@ -1,0 +1,18 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when 5-fold cross-validated macro accuracy on data/train stops improving across tried configurations, or after at most 6 training runs.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "model": "sklearn Pipeline: handcrafted color/gradient features + StandardScaler + LinearSVC",
+    "C": "1.0",
+    "cv_folds": "5",
+    "random_state": "0"
+  }
+}

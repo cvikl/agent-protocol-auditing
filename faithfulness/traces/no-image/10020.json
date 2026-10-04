@@ -1,0 +1,134 @@
+{
+ "run": "no-image",
+ "image_id": "10020",
+ "truth": {
+  "species": "Myrtle Warbler",
+  "attributes": {
+   "bill shape": [
+    "cone"
+   ],
+   "bill length": [
+    "shorter than head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "buff"
+   ],
+   "wing colour": [
+    "grey"
+   ],
+   "leg colour": [
+    "grey"
+   ]
+  },
+  "cub_path": "171.Myrtle_Warbler/Myrtle_Warbler_0103_166963.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "all-purpose",
+   "truth": [
+    "cone"
+   ],
+   "correct": false
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "shorter than head",
+   "truth": [
+    "shorter than head"
+   ],
+   "correct": true
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "multi-colored"
+   ],
+   "correct": false
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "buff",
+   "truth": [
+    "buff"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "brown",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "grey"
+   ],
+   "correct": false
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "House Wren",
+   "truth": "Myrtle Warbler",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "Small brown-winged bird with a short all-purpose black bill, plain buff breast and dark legs best fits House Wren."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 4/8 attributes correct, no flags."
+}

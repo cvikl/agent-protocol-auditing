@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-04T11:27:41.965Z",
+        "reason": "Claude: the only sub-1.3 values are the 2.4rem display title (1.18) and the single-line rotated margin stamp (1); body text is 1.5"
+      }
+    ]
+  }
+}

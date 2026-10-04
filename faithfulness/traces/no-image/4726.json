@@ -1,0 +1,138 @@
+{
+ "run": "no-image",
+ "image_id": "4726",
+ "truth": {
+  "species": "Pied Kingfisher",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "black",
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "081.Pied_Kingfisher/Pied_Kingfisher_0011_72143.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "dagger",
+   "truth": [
+    "dagger"
+   ],
+   "correct": true
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "longer than head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": false
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "multi-colored",
+   "truth": [
+    "multi-colored"
+   ],
+   "correct": true
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "black",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Common Tern",
+   "truth": "Pied Kingfisher",
+   "correct": false,
+   "flagged_conflict": false,
+   "note": "A long dagger-like black bill with white breast and black wings fits a tern, most consistent with Common Tern."
+  }
+ ],
+ "flags": [],
+ "verdict": "no-image: species wrong, 7/8 attributes correct, no flags."
+}

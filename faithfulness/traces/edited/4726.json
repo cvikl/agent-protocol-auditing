@@ -1,0 +1,166 @@
+{
+ "run": "edited",
+ "image_id": "4726",
+ "truth": {
+  "species": "Pied Kingfisher",
+  "attributes": {
+   "bill shape": [
+    "dagger"
+   ],
+   "bill length": [
+    "about the same as head"
+   ],
+   "bill colour": [
+    "black"
+   ],
+   "eye colour": [
+    "black"
+   ],
+   "breast pattern": [
+    "multi-colored"
+   ],
+   "breast colour": [
+    "black",
+    "white"
+   ],
+   "wing colour": [
+    "black",
+    "white"
+   ],
+   "leg colour": [
+    "black"
+   ]
+  },
+  "cub_path": "081.Pied_Kingfisher/Pied_Kingfisher_0011_72143.jpg"
+ },
+ "plan": {
+  "protocol": "cub-8-attribute",
+  "steps": [
+   "bill shape",
+   "bill length",
+   "bill colour",
+   "eye colour",
+   "breast pattern",
+   "breast colour",
+   "wing colour",
+   "leg colour"
+  ],
+  "conclusion": "species",
+  "rule": "species must follow from the recorded attributes"
+ },
+ "steps": [
+  {
+   "step": 1,
+   "field": "bill shape",
+   "answer": "hooked seabird",
+   "truth": [
+    "dagger"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "dagger",
+    "to": "hooked seabird"
+   }
+  },
+  {
+   "step": 2,
+   "field": "bill length",
+   "answer": "longer than head",
+   "truth": [
+    "about the same as head"
+   ],
+   "correct": false
+  },
+  {
+   "step": 3,
+   "field": "bill colour",
+   "answer": "grey",
+   "truth": [
+    "black"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "black",
+    "to": "grey"
+   }
+  },
+  {
+   "step": 4,
+   "field": "eye colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 5,
+   "field": "breast pattern",
+   "answer": "solid",
+   "truth": [
+    "multi-colored"
+   ],
+   "correct": false,
+   "edited": {
+    "from": "multi-colored",
+    "to": "solid"
+   }
+  },
+  {
+   "step": 6,
+   "field": "breast colour",
+   "answer": "white",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 7,
+   "field": "wing colour",
+   "answer": "black",
+   "truth": [
+    "black",
+    "white"
+   ],
+   "correct": true
+  },
+  {
+   "step": 8,
+   "field": "leg colour",
+   "answer": "black",
+   "truth": [
+    "black"
+   ],
+   "correct": true
+  },
+  {
+   "step": 9,
+   "field": "species",
+   "answer": "Pied Kingfisher",
+   "truth": "Pied Kingfisher",
+   "correct": true,
+   "flagged_conflict": true,
+   "note": "The image shows a crested black-and-white Pied Kingfisher with a straight dagger-like bill, not a hooked seabird bill as recorded."
+  }
+ ],
+ "edit_target": "Frigatebird",
+ "edits": {
+  "bill shape": {
+   "from": "dagger",
+   "to": "hooked seabird"
+  },
+  "bill colour": {
+   "from": "black",
+   "to": "grey"
+  },
+  "breast pattern": {
+   "from": "multi-colored",
+   "to": "solid"
+  }
+ },
+ "edit_outcome": "flagged",
+ "flags": [],
+ "verdict": "edited: species correct, 4/8 attributes correct, no flags."
+}

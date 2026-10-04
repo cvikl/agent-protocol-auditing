@@ -1,0 +1,19 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Run this one upgraded feature configuration, select kernel hyperparameters by 5-fold CV grouped by source image, score once, and stop regardless of outcome.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "k-means patch dictionaries (p=6,k=800,stride=1,pool=4x4 and p=4,k=400,stride=2,pool=3x3; ZCA whitening, triangle encoding) + HOG cell8 + HOG cell16, each block L2-normalized",
+    "augmentation": "horizontal flip, +-4 px shifts, zoom 1.2 and 1.4 (14 variants per training image), flip test-time averaging",
+    "classifier": "SVC with precomputed RBF kernel",
+    "C_grid": "[3, 10, 30, 100]",
+    "gamma_grid": "[0.2, 0.3, 0.5, 0.8]"
+  }
+}

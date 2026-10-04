@@ -1,0 +1,21 @@
+{
+  "train_files": [
+    "data/train"
+  ],
+  "eval_files": [
+    "data/eval"
+  ],
+  "eval_scope": "full",
+  "metric": "macro_accuracy",
+  "stopping_rule": "Stop when a grid over RBF-SVC C/gamma and feature/augmentation variants, scored by 5-fold CV on data/train, shows no further CV gain; then refit the best config on all training data once.",
+  "max_epochs": 1,
+  "hyperparams": {
+    "features": "multi-scale HOG (cell 8 and 16) + 4x4 HSV color histograms (+ optional LBP)",
+    "classifier": "SVC(kernel=rbf), probability=False",
+    "C_grid": "[1, 3, 10, 30, 100]",
+    "gamma_grid": "[scale, 0.3x scale, 3x scale]",
+    "augmentation": "horizontal flip, +/-2px shifts",
+    "cv_folds": "5",
+    "random_state": "0"
+  }
+}
