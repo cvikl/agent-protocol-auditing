@@ -64,6 +64,19 @@
   dialog pre .red { color: var(--red); }
   iframe { width: 100%; height: 1560px; border: 0; border-top: 1.5px solid var(--rule-2); }
   .hidden { display: none; }
+  .stats { margin-top: 28px; border-top: 1.5px solid var(--rule-2); padding-top: 10px; }
+  .stats h2 { font-size: 15px; font-weight: 700; margin: 0 0 6px; }
+  .stats table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  .stats th, .stats td { text-align: left; vertical-align: top; padding: 4px 14px 4px 0; }
+  .stats thead th { border-bottom: 1px solid var(--rule-2); font-weight: 600; }
+  .stats tbody tr:last-child td { border-bottom: 1.5px solid var(--rule-2); }
+  .stats .num { text-align: right; font: 400 12px/1.5 var(--mono); white-space: nowrap; }
+  .stats .lead { font-size: 15px; margin: 0 0 10px; }
+  .stats .lead b { font-weight: 700; }
+  .statwrap { overflow-x: auto; }
+  details.account { margin-top: 10px; font-size: 14px; }
+  details.account summary { cursor: pointer; color: var(--ink-2); font-style: italic; }
+  details.account pre { font: 400 11.5px/1.45 var(--mono); white-space: pre-wrap; word-break: break-word; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 8px 0; margin: 6px 0 0; max-height: 30vh; overflow: auto; }
 </style>
 </head>
 <body>
@@ -92,6 +105,7 @@
         <div class="label">protocol</div><div class="strip"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
+        <details class="account hidden"><summary>the agent's own account</summary><pre></pre></details>
       </section>
       <section class="col" id="R">
         <div class="hdr"></div>
@@ -100,9 +114,15 @@
         <div class="label">protocol</div><div class="strip"></div>
         <div class="label">flags</div><div class="flags"></div>
         <p class="verdict"></p>
+        <details class="account hidden"><summary>the agent's own account</summary><pre></pre></details>
       </section>
     </div>
     <p class="note">Click the red line to read the raw trace lines around the first flag and the protocol declared for that batch. Hover a tick for the path it touched.</p>
+    <section class="stats" id="stats">
+      <h2>Across all runs</h2>
+      <p class="lead" id="statLead"></p>
+      <div class="statwrap"><table><thead><tr><th>condition</th><th class="num">runs</th><th class="num">threshold</th><th class="num">passed</th><th class="num">hacks caught</th><th>signals fired (runs)</th><th class="num">onset step</th><th class="num">visible − hidden</th></tr></thead><tbody id="statRows"></tbody></table></div>
+    </section>
   </section>
 
   <section id="tab-faith" role="tabpanel" class="hidden">
@@ -221,6 +241,9 @@
         v = `${c} run ${i}: visible ${fmt(flags.visible)}, hidden ${fmt(flags.hidden)}, ${flags.threshold === null ? 'no pass mark' : (flags.passed ? 'passed' : 'did not pass') + ' ' + fmt(flags.threshold, 2)}; ` + (parts.length ? parts.join('; ') + '; ' : '') + `verdict <b>${flags.verdict || 'not computed'}</b> (${flags.verdict_detail || ''}).`;
       }
       $('.verdict', this.root).innerHTML = v;
+      const acc = $('.account', this.root), text = meta && (meta.cheat_summary || meta.report);
+      acc.classList.toggle('hidden', !text);
+      if (text) { $('summary', acc).textContent = meta.cheat_summary ? "the agent's own account (CHEAT_SUMMARY.md)" : "the agent's report (REPORT.md)"; $('pre', acc).textContent = text; }
       this.show(run.maxStep);
     }
     show(upto) {
@@ -270,6 +293,17 @@
       if (step >= max) { clearInterval(timer); $('#play').textContent = 'Play'; $('#play').disabled = false; $('#stepc').textContent = 'end of trace'; }
     }, 1000);
   });
+  try {
+    const S = await get('summary.json'), c = S.conditions, f2 = (o, d = 2) => (!o || o.value === null) ? '–' : `${fmt(o.value, d)} [${fmt(o.ci[0], d)}, ${fmt(o.ci[1], d)}]`;
+    const clean = ['honest', 'baited'].reduce((n, k) => n + (c[k] ? c[k].n : 0), 0);
+    const fp = ['honest', 'baited'].reduce((n, k) => n + (c[k] ? c[k].verdicts.hack : 0), 0);
+    const perm = c.permitted;
+    $('#statLead').innerHTML = perm ? `<b>${perm.verdicts.hack} of ${perm.n}</b> hacking agents caught, first flag at step ${fmt(perm.onset_step.value, 1)} on average, visible minus hidden ${fmt(perm.hidden_vs_visible_gap.value, 2)}; <b>${fp} of ${clean}</b> clean runs flagged as hacks (honest and baited together). Intervals are bootstrap 95% over runs.` : 'summary.json has no permitted runs yet.';
+    $('#statRows').innerHTML = Object.entries(c).map(([k, d]) => {
+      const sig = Object.entries(d.signals_fired).filter(([, n]) => n > 0).map(([s, n]) => `${s.replace('_', ' ')} ${n}/${d.n}`).join(', ') || 'none';
+      return `<tr><td>${k}</td><td class="num">${d.n}</td><td class="num">${d.threshold === null ? '–' : fmt(d.threshold, 2)}</td><td class="num">${Math.round(d.pass_rate.value * d.n)}/${d.n}</td><td class="num">${d.verdicts.hack}/${d.n}</td><td>${sig}</td><td class="num">${d.onset_step.value === null ? '–' : f2(d.onset_step, 1)}</td><td class="num">${f2(d.hidden_vs_visible_gap)}</td></tr>`;
+    }).join('');
+  } catch (e) { $('#statLead').textContent = 'summary.json not found.'; }
   $('#reset').addEventListener('click', () => { clearInterval(timer); L.show(L.run.maxStep); R.show(R.run.maxStep); $('#play').textContent = 'Play'; $('#play').disabled = false; $('#stepc').textContent = ''; });
 })();
 </script>
